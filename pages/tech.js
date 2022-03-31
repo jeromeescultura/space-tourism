@@ -23,7 +23,7 @@ const technologyList = [
   },
 ];
 
-function tech() {
+function Tech() {
   const [selected, setSelected] = useState("1");
 
   return (
@@ -103,4 +103,4 @@ function tech() {
   );
 }
 
-export default tech;
+export default Tech;
