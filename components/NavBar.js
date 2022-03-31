@@ -12,7 +12,7 @@ function NavBar() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     setActiveUrl(router.pathname);
-  }, [activeUrl]);
+  }, [activeUrl, router]);
 
   const navList = [
     {
