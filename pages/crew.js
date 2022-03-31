@@ -1,6 +1,7 @@
 import Image from "next/image";
 import NavBar from "../components/NavBar";
 import carousel from "../public/carousel.svg";
+import Slider from "react-slick";
 
 const crewList = [
   {
@@ -33,16 +34,77 @@ const crewList = [
   },
 ];
 
+var settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  arrows: false,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
+
 function crew() {
   return (
     <>
       <NavBar />
-      <div className="bg-lg-crew-bg bg-cover flex flex-col h-full bg-black pt-20 md:pt-28 md:pb-0 lg:px-28">
+      <div className="bg-lg-crew-bg bg-cover flex flex-col h-full md:h-screen bg-black pt-20 md:pt-28 md:pb-0 lg:px-28 justify-evenly md:justify-start">
         <div className="flex text-white tracking-wider barlow-condensed mb-6 md:mb-10 lg:mb-20 justify-center md:justify-start md:ml-5 md:text-xl lg:pt-12 lg:text-2xl">
           <span className="opacity-25 mr-4 bold">02</span>
           <p> MEET YOUR CREW</p>
         </div>
-        <div className="flex justify-center w-full px-6 md:hidden">
+        <Slider {...settings}>
+          {crewList.map((crew, id) => (
+            <div key={id}>
+              <div className="flex  flex-col lg:flex-row justify-around ">
+                <div className="flex justify-center w-full px-6 md:hidden">
+                  <Image
+                    src={`/images/${crew.imageLink}`}
+                    alt="Crew"
+                    width={170}
+                    height={230}
+                    objectFit="contain"
+                  />
+                </div>
+                <div className="px-8 mt-20 md:mt-0 text-center lg:text-left lg:h-full lg:w-full">
+                  <h1 className="Bellefair opacity-50 text-white tracking-wider uppercase md:text-xl lg:text-[32px]">
+                    {crew.position}
+                  </h1>
+                  <h2 className="Bellefair text-2xl md:text-4xl md:mt-2 mb-6 md:mb-4 font-semibold text-white lg:text-[56px] mt-4 lg:mt-8 lg:leading-tight uppercase">
+                    {crew.name}
+                  </h2>
+                  <p className="text-primaryText text-base barlow md:px-28 mb-8 md:mb-14 lg:px-0 lg:w-2/3 lg:mt-12 ">
+                    {crew.desc}
+                  </p>
+                </div>
+
+                <div className="justify-center w-full px-6 hidden md:flex lg:hidden">
+                  <div className="lg:w-full lg:h-full  w-1/2 h-1/2 text-center">
+                    <Image
+                      src={`/images/${crew.imageLink}`}
+                      alt="Crew"
+                      width={300}
+                      height={430}
+                      objectFit="contain"
+                    />
+                  </div>
+                </div>
+                {/* Desktop */}
+                <div className="text-center lg:w-full px-6 hidden lg:flex lg:mr-10 ">
+                  <div className="lg:w-full md:mt-10 lg:mt-0">
+                    <Image
+                      src={`/images/${crew.imageLink}`}
+                      alt="Crew"
+                      width={400}
+                      height={450}
+                      objectFit="contain"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+        {/* <div className="flex justify-center w-full px-6 md:hidden">
           <Image
             src={`/images/crews/Mark.png`}
             className="px-20 mb-6 "
@@ -54,13 +116,15 @@ function crew() {
         </div>
         <div className="px-12 md:hidden">
           <hr className="border-b-2 border-[#383B4B] w-full h-[0.5px]" />
-        </div>
-
-        <div className="flex lg:flex-row lg:items-center h-full flex-col justify-between overflow-hidden">
-          <div className="px-8 mt-20 md:mt-0 text-center lg:text-left lg:w-full">
-            <div className="mb-8 md:hidden">
+        </div> 
+        <div className="mb-8 md:hidden">
               <Image src={carousel} alt="carousel" width={100} height={15} />
             </div>
+        */}
+        {/* 
+        <div className="flex lg:flex-row lg:items-center h-full flex-col justify-between overflow-hidden">
+          <div className="px-8 mt-20 md:mt-0 text-center lg:text-left lg:w-full">
+            
             <h1 className="Bellefair opacity-50 text-white tracking-wider uppercase md:text-xl lg:text-[32px]">
               Mission Specialist
             </h1>
@@ -90,7 +154,6 @@ function crew() {
               />
             </div>
           </div>
-          {/* Larger Device */}
           <div className="text-center lg:w-1/2 px-6 hidden lg:flex lg:mr-10">
             <div className="lg:w-full md:mt-10 lg:mt-0">
               <Image
@@ -103,7 +166,7 @@ function crew() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

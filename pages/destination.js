@@ -38,8 +38,8 @@ function Destination() {
   return (
     <>
       <NavBar />
-      <div className="bg-destinations-bg lg:bg-lg-destinations-bg bg-cover flex flex-col h-full bg-black pt-20 md:pt-28 pb-12 lg:px-28">
-        <div className="flex text-white tracking-wider barlow-condensed mb-6 md:mb-10 lg:mb-20 justify-center md:justify-start md:ml-5 md:text-xl lg:pt-12 lg:text-2xl">
+      <div className="bg-destinations-bg lg:bg-lg-destinations-bg bg-cover flex flex-col h-full lg:h-screen bg-black pt-20 md:pt-28 pb-12 lg:px-28">
+        <div className="flex text-white tracking-wider barlow-condensed mb-6 md:mb-10 lg:mb-16 justify-center md:justify-start md:ml-5 md:text-xl lg:pt-12 lg:text-2xl">
           <span className="opacity-25 mr-4 bold">01</span>
           <p> PICK YOUR DESTINATION</p>
         </div>
@@ -81,7 +81,7 @@ function Destination() {
                   </li>
                 ))}
               </ul>
-              <h2 className="Bellefair text-6xl font-semibold text-white my-4 uppercase lg:text-[100px] lg:mt-16">
+              <h2 className="Bellefair text-6xl font-semibold text-white my-4 uppercase lg:text-[100px] lg:mt-10">
                 {selected}
               </h2>
               {destinationsList.map((destination, id) => (
@@ -94,7 +94,7 @@ function Destination() {
               ))}
               <hr className="border-[#383B4B] h-0.5 mt-6 lg:mt-12" />
             </div>
-            <div className="mt-8 lg:mt-0 text-center md:flex align-top items-center justify-center md:justify-around md:px-16 lg:items-start lg:justify-items-start lg:justify-start lg:px-0  lg:mb-8 lg:text-left">
+            <div className="mt-8 lg:mt-0 text-center md:flex align-top items-center justify-center md:justify-around md:px-16 lg:items-start lg:justify-items-start lg:justify-start lg:px-0  lg:mb-4 lg:text-left">
               <div className="uppercase lg:mr-20">
                 <p className="text-primaryText barlow-condensed tracking-wider mb-1 ">
                   Avg. Distance

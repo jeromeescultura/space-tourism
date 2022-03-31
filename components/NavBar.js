@@ -60,6 +60,7 @@ function NavBar() {
             className="cursor-pointer w-8 h-8"
           />
         </div>
+        <hr className="w-1/2 h-1 fixed right-[40%] hidden lg:block xl:right-1/4" />
         <div className="md:flex hidden backdrop-blur-[40px] bg-black/60">
           <ul className="text-white tracking-widest flex gap-12 barlow-condensed items-center justify-center py-6 px-8 lg:pr-32 lg:pl-24">
             {navList.map((nav, id) => (

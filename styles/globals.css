@@ -51,3 +51,27 @@ code {
 .navBar ul span {
   font-weight: 700;
 }
+
+/* Carousel */
+
+.slick-list .slick-arrow {
+  display: none !important;
+}
+.slick-dots li button::before {
+  color: #fff !important;
+  font-size: 15px !important;
+}
+.slick-dots {
+  top: 42%;
+  bottom: 0 !important;
+}
+
+@media only screen and (min-width: 1024px) {
+  .slick-dots {
+    left: 0 !important;
+    width: 160px !important;
+    margin-top: 40px !important;
+    top: unset !important;
+    bottom: 40px !important;
+  }
+}
