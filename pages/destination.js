@@ -46,9 +46,12 @@ function Destination() {
         <div className="lg:flex-row lg:flex lg:justify-evenly">
           <div className="flex justify-center lg:flex-1 ">
             {destinationsList.map(
-              (destination) =>
+              (destination, id) =>
                 Selected === destination.title && (
-                  <div className="w-1/2 md:w-1/3 lg:w-full lg:text-center lg:p-10">
+                  <div
+                    key={id}
+                    className="w-1/2 md:w-1/3 lg:w-full lg:text-center lg:p-10"
+                  >
                     <Image
                       src={`/../public/images/${destination.src}`}
                       alt="Image"
@@ -63,8 +66,9 @@ function Destination() {
           <div className="lg:items-start lg:flex-1 flex flex-col justify-between">
             <div className="px-8 text-center lg:text-left md:mt-8 lg:mt-0 lg:px-0 lg:top-0">
               <ul className="barlow-condensed text-primaryText tracking-wider inline-flex gap-6 my-4 lg:my-0">
-                {destinationsList.map((destination) => (
+                {destinationsList.map((destination, id) => (
                   <li
+                    key={id}
                     className={`${
                       Selected === destination.title
                         ? "text-white underline underline-offset-8 "
@@ -79,8 +83,11 @@ function Destination() {
               <h2 className="Bellefair text-6xl font-semibold text-white my-4 uppercase lg:text-[100px] lg:mt-16">
                 {Selected}
               </h2>
-              {destinationsList.map((destination) => (
-                <p className="text-primaryText text-base barlow  md:px-24 lg:px-0 lg:w-2/3">
+              {destinationsList.map((destination, id) => (
+                <p
+                  key={id}
+                  className="text-primaryText text-base barlow  md:px-24 lg:px-0 lg:w-2/3"
+                >
                   {Selected === destination.title && destination.desc}
                 </p>
               ))}
@@ -91,8 +98,8 @@ function Destination() {
                 <p className="text-primaryText barlow-condensed tracking-wider mb-1 ">
                   Avg. Distance
                 </p>
-                {destinationsList.map((destination) => (
-                  <p className="Bellefair text-3xl text-white">
+                {destinationsList.map((destination, id) => (
+                  <p key={id} className="Bellefair text-3xl text-white">
                     {Selected === destination.title && destination.distance}
                   </p>
                 ))}
@@ -101,8 +108,8 @@ function Destination() {
                 <p className="text-primaryText barlow-condensed tracking-wider mb-1">
                   Est. travel time
                 </p>
-                {destinationsList.map((destination) => (
-                  <p className="Bellefair text-3xl text-white">
+                {destinationsList.map((destination, id) => (
+                  <p key={id} className="Bellefair text-3xl text-white">
                     {Selected === destination.title && destination.travelTime}
                   </p>
                 ))}

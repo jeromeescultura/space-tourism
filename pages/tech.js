@@ -36,9 +36,10 @@ function tech() {
         <div className="lg:flex-row lg:flex lg:justify-evenly">
           <div className="my-14 w-full lg:hidden">
             {technologyList.map(
-              (tech) =>
+              (tech, id) =>
                 Selected === tech.id && (
                   <Image
+                    key={id}
                     src={`/../public/images/technologies/${tech.src}`}
                     alt="Tech"
                     width={768}
@@ -50,8 +51,9 @@ function tech() {
           </div>
           <div className="flex flex-col lg:flex-row text-center md:pb-28 lg:pb-0 items-center w-full">
             <div className="px-8 gap-4 lg:gap-8 flex lg:flex-col items-center justify-center">
-              {technologyList.map((tech) => (
+              {technologyList.map((tech, id) => (
                 <div
+                  key={id}
                   className={`${
                     Selected === tech.id && "bg-white text-black"
                   } flex cursor-pointer border-white border rounded-full w-10 h-10 md:w-16 md:h-16 items-center justify-center text-white hover:text-black hover:bg-white`}
@@ -66,9 +68,9 @@ function tech() {
                 THE TERMINOLOGY…
               </h1>
               {technologyList.map(
-                (tech) =>
+                (tech, id) =>
                   Selected === tech.id && (
-                    <div className="px-8 lg:px-0">
+                    <div key={id} className="px-8 lg:px-0">
                       <h2 className="Bellefair text-2xl md:text-4xl font-semibold text-white mt-1 md:mt-4 mb-4 lg:mb-8 lg:text-[56px] lg:leading-tight">
                         {tech.title}
                       </h2>
@@ -82,9 +84,10 @@ function tech() {
           </div>
           <div className=" w-full hidden lg:inline-flex justify-end">
             {technologyList.map(
-              (tech) =>
+              (tech, id) =>
                 Selected === tech.id && (
                   <Image
+                    key={id}
                     src={`/../public/images/technologies/lg-${tech.src}`}
                     alt="Tech"
                     width={600}
