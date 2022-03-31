@@ -34,7 +34,7 @@ const destinationsList = [
 ];
 
 function Destination() {
-  const [Selected, SetSelected] = useState("Moon");
+  const [selected, setSelected] = useState("Moon");
   return (
     <>
       <NavBar />
@@ -47,7 +47,7 @@ function Destination() {
           <div className="flex justify-center lg:flex-1 ">
             {destinationsList.map(
               (destination, id) =>
-                Selected === destination.title && (
+                selected === destination.title && (
                   <div
                     key={id}
                     className="w-1/2 md:w-1/3 lg:w-full lg:text-center lg:p-10"
@@ -70,25 +70,25 @@ function Destination() {
                   <li
                     key={id}
                     className={`${
-                      Selected === destination.title
+                      selected === destination.title
                         ? "text-white underline underline-offset-8 "
                         : ""
                     }uppercase cursor-pointer hover:text-white`}
-                    onClick={() => SetSelected(destination.title)}
+                    onClick={() => setSelected(destination.title)}
                   >
                     {destination.title}
                   </li>
                 ))}
               </ul>
               <h2 className="Bellefair text-6xl font-semibold text-white my-4 uppercase lg:text-[100px] lg:mt-16">
-                {Selected}
+                {selected}
               </h2>
               {destinationsList.map((destination, id) => (
                 <p
                   key={id}
                   className="text-primaryText text-base barlow  md:px-24 lg:px-0 lg:w-2/3"
                 >
-                  {Selected === destination.title && destination.desc}
+                  {selected === destination.title && destination.desc}
                 </p>
               ))}
               <hr className="border-[#383B4B] h-0.5 mt-6 lg:mt-12" />
@@ -100,7 +100,7 @@ function Destination() {
                 </p>
                 {destinationsList.map((destination, id) => (
                   <p key={id} className="Bellefair text-3xl text-white">
-                    {Selected === destination.title && destination.distance}
+                    {selected === destination.title && destination.distance}
                   </p>
                 ))}
               </div>
@@ -110,7 +110,7 @@ function Destination() {
                 </p>
                 {destinationsList.map((destination, id) => (
                   <p key={id} className="Bellefair text-3xl text-white">
-                    {Selected === destination.title && destination.travelTime}
+                    {selected === destination.title && destination.travelTime}
                   </p>
                 ))}
               </div>
