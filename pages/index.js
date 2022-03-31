@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import Link from "next/link";
 import NavBar from "../components/NavBar";
 
 export default function Home() {
@@ -28,9 +28,11 @@ export default function Home() {
         </p>
       </div>
       <div className="lg:pt-24">
-        <div className="bg-white rounded-full w-32 h-32 md:w-56 md:h-56 items-center justify-center flex">
-          <h2 className="Bellefair md:text-3xl">EXPLORE</h2>
-        </div>
+        <Link passHref href="/destination">
+          <div className="bg-white rounded-full w-32 h-32 md:w-56 md:h-56 items-center justify-center flex cursor-pointer duration-75 hover:bg-[#f2f2f2]">
+            <h2 className="Bellefair md:text-3xl">EXPLORE</h2>
+          </div>
+        </Link>
       </div>
     </div>
   );

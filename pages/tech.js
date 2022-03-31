@@ -58,7 +58,7 @@ function Tech() {
                   key={id}
                   className={`${
                     selected === tech.id && "bg-white text-black"
-                  } flex cursor-pointer border-white border rounded-full w-10 h-10 md:w-16 md:h-16 items-center justify-center text-white hover:text-black hover:bg-white`}
+                  } flex cursor-pointer border-white border rounded-full w-10 h-10 md:w-16 md:h-16 items-center justify-center text-white hover:text-black hover:bg-white transition duration-150 ease-in-out`}
                   onClick={() => setSelected(tech.id)}
                 >
                   <h2 className="Bellefai md:text-xl lg:text-2xl">{tech.id}</h2>
