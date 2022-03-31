@@ -44,7 +44,7 @@ function crew() {
         </div>
         <div className="flex justify-center w-full px-6 md:hidden">
           <Image
-            src={`/../public/images/crews/Mark.png`}
+            src={`/images/crews/Mark.png`}
             className="px-20 mb-6 "
             alt="Close"
             width={154}
@@ -81,7 +81,7 @@ function crew() {
           <div className="justify-center w-full px-6 hidden md:flex lg:hidden">
             <div className="lg:w-full lg:h-full  w-1/2 h-1/2 text-center">
               <Image
-                src={`/../public/images/crews/Mark.png`}
+                src={`/images/crews/Mark.png`}
                 className="px-20 mb-6 border-b-2 border-[#383B4B] md:border-0"
                 alt="Crew"
                 width={300}
@@ -94,7 +94,7 @@ function crew() {
           <div className="text-center lg:w-1/2 px-6 hidden lg:flex lg:mr-10">
             <div className="lg:w-full md:mt-10 lg:mt-0">
               <Image
-                src={`/../public/images/crews/Mark.png`}
+                src={`/images/crews/Mark.png`}
                 className="px-20 mb-6 border-b-2 border-[#383B4B] md:border-0"
                 alt="Crew"
                 width={530}

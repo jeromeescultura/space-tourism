@@ -53,7 +53,7 @@ function Destination() {
                     className="w-1/2 md:w-1/3 lg:w-full lg:text-center lg:p-10"
                   >
                     <Image
-                      src={`/../public/images/${destination.src}`}
+                      src={`/images/${destination.src}`}
                       alt="Image"
                       width={400}
                       height={400}
