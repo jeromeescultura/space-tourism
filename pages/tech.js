@@ -41,11 +41,12 @@ function Tech() {
                 selected === tech.id && (
                   <Image
                     key={id}
-                    src={`/../public/images/technologies/${tech.src}`}
+                    src={`/images/technologies/${tech.src}`}
                     alt="Tech"
                     width={768}
                     height={310}
                     layout="responsive"
+                    objectFit="cover"
                   />
                 )
             )}
@@ -64,7 +65,7 @@ function Tech() {
                 </div>
               ))}
             </div>
-            <div className="lg:text-left lg:ml-4">
+            <div className="lg:text-left lg:ml-12">
               <h1 className="barlow-condensed text-primaryText tracking-widest uppercase mt-6 md:mt-14 lg:mt-0">
                 THE TERMINOLOGY…
               </h1>
@@ -89,10 +90,11 @@ function Tech() {
                 selected === tech.id && (
                   <Image
                     key={id}
-                    src={`/../public/images/technologies/lg-${tech.src}`}
+                    src={`/images/technologies/lg-${tech.src}`}
                     alt="Tech"
-                    width={600}
-                    height={600}
+                    width={500}
+                    height={500}
+                    objectFit="cover"
                   />
                 )
             )}

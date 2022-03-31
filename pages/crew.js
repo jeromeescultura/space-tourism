@@ -49,6 +49,7 @@ function crew() {
             alt="Close"
             width={154}
             height={222}
+            objectFit="cover"
           />
         </div>
         <div className="px-12 md:hidden">
@@ -85,18 +86,20 @@ function crew() {
                 alt="Crew"
                 width={300}
                 height={430}
+                objectFit="cover"
               />
             </div>
           </div>
           {/* Larger Device */}
-          <div className="text-center lg:w-2/3 px-6 hidden lg:flex lg:mr-10 border-2 align-bottom justify-end">
-            <div className="lg:w-full md:mt-10 lg:mt-0 align-bottom justify-end">
+          <div className="text-center lg:w-1/2 px-6 hidden lg:flex lg:mr-10">
+            <div className="lg:w-full md:mt-10 lg:mt-0">
               <Image
                 src={`/../public/images/crews/Mark.png`}
-                className="px-20 mb-6 border-b-2 border-[#383B4B] md:border-0 align-bottom"
+                className="px-20 mb-6 border-b-2 border-[#383B4B] md:border-0"
                 alt="Crew"
                 width={530}
                 height={780}
+                objectFit="cover"
               />
             </div>
           </div>

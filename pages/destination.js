@@ -57,8 +57,9 @@ function Destination() {
                       alt="Image"
                       width={400}
                       height={400}
-                      className="mb-6 object-contain"
-                    />{" "}
+                      className="mb-6"
+                      objectFit="cover"
+                    />
                   </div>
                 )
             )}
