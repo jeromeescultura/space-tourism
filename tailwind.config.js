@@ -28,7 +28,13 @@ module.exports = {
       "bubble-gum": "#ff77e9",
       bermuda: "#78dcca",
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        Bellefair: ["Bellefair", "serif"],
+        Barlow: ["Barlow", "serif"],
+        "Barlow-Condensed": ["Barlow Condensed", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
