@@ -21,10 +21,10 @@ export default function Home() {
         </h2>
 
         <p className="text-primaryText text-base barlow md:w-3/5 lg:text-xl">
-          Let's face it; if you want to go to space, you might as well genuinely
-          go to outer space and not hover kind of on the edge of it. Well sit
-          back, and relax because we'll give you a truly out of this world
-          experience!
+          Let&apos;s face it; if you want to go to space, you might as well
+          genuinely go to outer space and not hover kind of on the edge of it.
+          Well sit back, and relax because we&apos;ll give you a truly out of
+          this world experience!
         </p>
       </div>
       <div className="lg:pt-24">
