@@ -37,7 +37,7 @@ function crew() {
   return (
     <>
       <NavBar />
-      <div className="bg-lg-crew-bg bg-cover flex flex-col h-screen bg-black pt-20 md:pt-28 md:pb-0 lg:px-28">
+      <div className="bg-lg-crew-bg bg-cover flex flex-col h-full bg-black pt-20 md:pt-28 md:pb-0 lg:px-28">
         <div className="flex text-white tracking-wider barlow-condensed mb-6 md:mb-10 lg:mb-20 justify-center md:justify-start md:ml-5 md:text-xl lg:pt-12 lg:text-2xl">
           <span className="opacity-25 mr-4 bold">02</span>
           <p> MEET YOUR CREW</p>
