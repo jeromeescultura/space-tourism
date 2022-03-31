@@ -40,7 +40,7 @@ function NavBar() {
     <>
       <nav className="top-0 fixed flex justify-between  bg-transparent text-white items-center w-full mt-5 md:mt-0 lg:mt-12">
         <div className="mx-5 w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 lg:mx-12">
-          <Link href="/">
+          <Link passHref href="/">
             <Image
               src={logo}
               alt="Logo"
@@ -71,7 +71,7 @@ function NavBar() {
                   "underline underline-offset-[26px] first-line:"
                 }hover:text-primaryText cursor-pointer`}
               >
-                <Link href={nav.url}>
+                <Link passHref href={nav.url}>
                   <p
                     className="uppercase light"
                     onClick={() => setActiveUrl(nav.url)}
@@ -107,7 +107,7 @@ function NavBar() {
               key={id}
               className="flex my-4 hover:text-primaryText cursor-pointer"
             >
-              <Link href={nav.url}>
+              <Link passHref href={nav.url}>
                 <p
                   className={`${
                     activeUrl === nav.url
