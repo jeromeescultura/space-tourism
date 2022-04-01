@@ -50,28 +50,29 @@ function NavBar() {
             />
           </Link>
         </div>
-        <div className="md:hidden mr-5">
+        <button className="md:hidden mr-5 " onClick={() => setOpen(!open)}>
           <Image
+            tabIndex="0"
             src={menu}
             alt="Menu"
             width={30}
             height={30}
-            onClick={() => setOpen(!open)}
             className="cursor-pointer w-8 h-8"
           />
-        </div>
+        </button>
         <hr className="w-1/2 h-1 fixed right-[40%] hidden lg:block xl:right-1/4 opacity-25" />
         <div className="md:flex hidden backdrop-blur-[40px] bg-black/60">
           <ul className="text-white tracking-widest flex gap-12 barlow-condensed items-center justify-center py-6 px-8 lg:pr-32 lg:pl-24">
             {navList.map((nav, id) => (
-              <li
-                key={id}
-                className={`${
-                  activeUrl === nav.url &&
-                  "underline underline-offset-[26px] first-line:"
-                } cursor-pointer`}
-              >
-                <Link passHref href={nav.url}>
+              <Link passHref href={nav.url}>
+                <button
+                  tabIndex="0"
+                  key={id}
+                  className={`${
+                    activeUrl === nav.url &&
+                    "underline underline-offset-[26px] first-line:"
+                  } cursor-pointer`}
+                >
                   <p
                     className="uppercase light hover:text-primaryText hover:underline underline-offset-[26px] transition duration-150 ease-in-out"
                     onClick={() => setActiveUrl(nav.url)}
@@ -80,8 +81,8 @@ function NavBar() {
                     {"   "}
                     {nav.text}
                   </p>
-                </Link>
-              </li>
+                </button>
+              </Link>
             ))}
           </ul>
         </div>
@@ -91,23 +92,24 @@ function NavBar() {
           open ? "w-64" : "hidden"
         }  z-10 right-0 h-screen backdrop-blur-[24px] bg-black/60 fixed text-white px-8 py-8 top-0 `}
       >
-        <div className="float-right">
+        <button className="float-right" onClick={() => setOpen(!open)}>
           <Image
             src={close}
             alt="Close"
             width={30}
             height={30}
-            onClick={() => setOpen(!open)}
+            tabIndex="0"
             className="p-1 cursor-pointer w-8 h-8"
           />
-        </div>
+        </button>
         <ul className="tracking-widest mt-24 barlow-condensed">
           {navList.map((nav, id) => (
-            <li
-              key={id}
-              className="flex my-4 hover:text-primaryText cursor-pointer"
-            >
-              <Link passHref href={nav.url}>
+            <Link passHref href={nav.url}>
+              <button
+                tabIndex="0"
+                key={id}
+                className="flex my-4 hover:text-primaryText cursor-pointer"
+              >
                 <p
                   className={`${
                     activeUrl === nav.url
@@ -117,8 +119,8 @@ function NavBar() {
                 >
                   {nav.id} <span className="ml-2  light">{nav.text}</span>
                 </p>
-              </Link>
-            </li>
+              </button>
+            </Link>
           ))}
         </ul>
       </div>

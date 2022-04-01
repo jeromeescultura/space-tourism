@@ -29,7 +29,7 @@ function Tech() {
   return (
     <>
       <NavBar />
-      <div className="bg-lg-tech-bg bg-cover flex flex-col h-full lg:h-screen bg-black md:justify-around pt-20 md:pt-28 pb-12 lg:pl-28">
+      <div className="bg-lg-tech-bg bg-cover flex flex-col  h-screen bg-black md:justify-around pt-20 md:pt-28 pb-12 lg:pl-28">
         <div className="flex text-white tracking-wider barlow-condensed mb-6 md:mb-10 justify-center md:justify-start md:ml-5 md:text-xl lg:pt-12 lg:text-2xl">
           <span className="opacity-25 mr-4 bold">03</span>
           <p> SPACE LAUNCH 101</p>
@@ -54,7 +54,8 @@ function Tech() {
           <div className="flex flex-col lg:flex-row text-center md:pb-28 lg:pb-0 items-center w-full">
             <div className="px-8 gap-4 lg:gap-8 flex lg:flex-col items-center justify-center">
               {technologyList.map((tech, id) => (
-                <div
+                <button
+                  tabIndex="0"
                   key={id}
                   className={`${
                     selected === tech.id && "bg-white text-black"
@@ -62,7 +63,7 @@ function Tech() {
                   onClick={() => setSelected(tech.id)}
                 >
                   <h2 className="Bellefai md:text-xl lg:text-2xl">{tech.id}</h2>
-                </div>
+                </button>
               ))}
             </div>
             <div className="lg:text-left lg:ml-12">

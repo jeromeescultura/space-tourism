@@ -38,7 +38,7 @@ function Destination() {
   return (
     <>
       <NavBar />
-      <div className="bg-destinations-bg lg:bg-lg-destinations-bg bg-cover flex flex-col h-full lg:h-screen bg-black pt-20 md:pt-28 pb-12 lg:px-28">
+      <div className="bg-destinations-bg lg:bg-lg-destinations-bg bg-cover flex flex-col h-screen lg:h-screen bg-black pt-20 md:pt-28 pb-12 lg:px-28">
         <div className="flex text-white tracking-wider barlow-condensed mb-6 md:mb-10 lg:mb-16 justify-center md:justify-start md:ml-5 md:text-xl lg:pt-12 lg:text-2xl">
           <span className="opacity-25 mr-4 bold">01</span>
           <p> PICK YOUR DESTINATION</p>
@@ -54,7 +54,7 @@ function Destination() {
                   >
                     <Image
                       src={`/images/${destination.src}`}
-                      alt="Image"
+                      alt={destination.title}
                       width={400}
                       height={400}
                       className="mb-6"
@@ -68,7 +68,8 @@ function Destination() {
             <div className="px-8 text-center lg:text-left md:mt-8 lg:mt-0 lg:px-0 lg:top-0">
               <ul className="barlow-condensed text-primaryText tracking-wider inline-flex gap-6 my-4 lg:my-0">
                 {destinationsList.map((destination, id) => (
-                  <li
+                  <button
+                    tabIndex="0"
                     key={id}
                     className={`${
                       selected === destination.title
@@ -78,7 +79,7 @@ function Destination() {
                     onClick={() => setSelected(destination.title)}
                   >
                     {destination.title}
-                  </li>
+                  </button>
                 ))}
               </ul>
               <h2 className="Bellefair text-6xl font-semibold text-white my-4 uppercase lg:text-[100px] lg:mt-10">
