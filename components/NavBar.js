@@ -64,10 +64,9 @@ function NavBar() {
         <div className="md:flex hidden backdrop-blur-[40px] bg-black/60">
           <ul className="text-white tracking-widest flex gap-12 barlow-condensed items-center justify-center py-6 px-8 lg:pr-32 lg:pl-24">
             {navList.map((nav, id) => (
-              <Link passHref href={nav.url}>
+              <Link passHref href={nav.url} key={id}>
                 <button
                   tabIndex="0"
-                  key={id}
                   className={`${
                     activeUrl === nav.url &&
                     "underline underline-offset-[26px] first-line:"
@@ -104,10 +103,9 @@ function NavBar() {
         </button>
         <ul className="tracking-widest mt-24 barlow-condensed">
           {navList.map((nav, id) => (
-            <Link passHref href={nav.url}>
+            <Link passHref href={nav.url} key={id}>
               <button
                 tabIndex="0"
-                key={id}
                 className="flex my-4 hover:text-primaryText cursor-pointer"
               >
                 <p
