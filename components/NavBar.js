@@ -35,10 +35,15 @@ function NavBar() {
       text: "Technology",
       url: "/tech",
     },
+    {
+      id: "04",
+      text: "Discover",
+      url: "/discover",
+    },
   ];
   return (
     <>
-      <nav className="top-0 fixed flex justify-between  bg-transparent text-white items-center w-full mt-5 md:mt-0 lg:mt-12">
+      <nav className="top-0 absolute flex justify-between  bg-transparent text-white items-center w-full mt-5 md:mt-0 lg:mt-12 z-30">
         <div className="mx-5 w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 lg:mx-12 cursor-pointer">
           <Link passHref href="/">
             <Image
@@ -60,7 +65,7 @@ function NavBar() {
             className="cursor-pointer w-8 h-8"
           />
         </button>
-        <hr className="w-1/2 h-1 fixed right-[40%] hidden lg:block xl:right-1/4 opacity-25" />
+        <hr className="w-1/2 h-1 absolute right-[40%] hidden lg:block xl:right-1/4 opacity-25" />
         <div className="md:flex hidden backdrop-blur-[40px] bg-black/60">
           <ul className="text-white tracking-widest flex gap-12 barlow-condensed items-center justify-center py-6 px-8 lg:pr-32 lg:pl-24">
             {navList.map((nav, id) => (

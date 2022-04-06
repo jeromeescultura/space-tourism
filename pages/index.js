@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 
 export default function Home() {
   return (
-    <div className="bg-home-bg lg:bg-lg-home-bg bg-cover flex flex-col lg:flex-row h-screen bg-black items-center place-content-around pt-12 lg:px-36 lg:pt-32">
+    <div className="bg-home-bg relative lg:bg-lg-home-bg bg-cover flex flex-col lg:flex-row h-screen bg-black items-center place-content-around lg:px-36 lg:pt-32">
       <Head>
         <title>Space Tourism - Jerome Escultura</title>
         <meta name="description" content="Web Challenge by Jerome Escultura" />
