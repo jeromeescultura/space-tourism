@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import NavBar from "../components/NavBar";
 import SearchFeed from "../components/SearchFeed";
@@ -5,9 +6,15 @@ import SearchWidget from "../components/SearchWidget";
 
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
-function discover() {
+export default function discover({ launches, launchpads }) {
+  const [activeUrl, setActiveUrl] = useState("");
+
+  useEffect(() => {
+    setActiveUrl(window.location.origin);
+  }, [activeUrl]);
+
   const scrollToResults = () => {
-    window.scroll({ top: 520, left: 0, behavior: "smooth" });
+    window.scroll({ top: 550, left: 0, behavior: "smooth" });
   };
   const backToTop = () => {
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
@@ -19,8 +26,8 @@ function discover() {
       <div className="relative h-[200px] sm:h-[300px] lg:h-[65vh] ">
         <Image
           src="/images/banner.png"
-          height={200}
-          width={200}
+          height={1000}
+          width={666}
           objectFit="cover"
           layout="fill"
           alt="banner"
@@ -40,11 +47,11 @@ function discover() {
         <div className="absolute bottom-0   h-[100px] text-center w-full gradient"></div>
       </div>
       <div className="w-full mx-auto md:w-[90%] lg:w-[80%]">
-        <SearchWidget />
+        <SearchWidget launchpads={launchpads} launches={launches} />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
           <p className="text-slate-400">Showing 5 Missions</p>
         </div>
-        <SearchFeed />
+        <SearchFeed launches={launches} launchpads={launchpads} />
       </div>
       <div className="py-10 w-[90%] md:w-[80%] mx-auto flex justify-between">
         <p className="text-sm text-slate-500 barlow">
@@ -60,5 +67,18 @@ function discover() {
     </div>
   );
 }
+export async function getServerSideProps(context) {
+  const launches = await fetch("http://localhost:3000/api/launches").then(
+    (rest) => rest.json()
+  );
+  const launchpads = await fetch("http://localhost:3000/api/launchpads").then(
+    (rest) => rest.json()
+  );
 
-export default discover;
+  return {
+    props: {
+      launches,
+      launchpads,
+    },
+  };
+}

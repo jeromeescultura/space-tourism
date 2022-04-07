@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["spacexpatchlist.space"],
+    domains: ["spacexpatchlist.space", "i.imgur.com"],
   },
 };
 
