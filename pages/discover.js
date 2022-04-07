@@ -22,7 +22,16 @@ function discover() {
               Discover Space Mission
             </h4>
           </div>
-          <div className="absolute bottom-0  z-50 h-[100px] text-center w-full gradient"></div>
+          <div className="absolute bottom-10 hidden lg:block z-50 w-full text-center ">
+            <Image
+              src="/images/down-chevron.png"
+              height={30}
+              width={30}
+              alt="chevron"
+              className="cursor-pointer"
+            />
+          </div>
+          <div className="absolute bottom-0   h-[100px] text-center w-full gradient"></div>
         </div>
         <div className="w-full mx-auto md:w-[90%] lg:w-[80%]">
           <SearchWidget />
