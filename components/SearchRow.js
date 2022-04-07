@@ -9,6 +9,7 @@ function SearchRow() {
           height={70}
           width={70}
           objectFit="contain"
+          alt="thumbnail"
         />
       </div>
       <div className="flex-grow">

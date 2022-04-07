@@ -4,7 +4,7 @@ function SearchWidget() {
       <div className="md:col-span-2">
         <label
           className=" w-full block barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2"
-          for="keywords"
+          htmlFor="keywords"
         >
           Keywords
         </label>
@@ -18,7 +18,7 @@ function SearchWidget() {
       <div className="md:col-span-2">
         <label
           className=" w-full block barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2"
-          for="launchpad"
+          htmlFor="launchpad"
         >
           Launchpad
         </label>
@@ -32,7 +32,7 @@ function SearchWidget() {
       <div>
         <label
           className=" w-full block barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2"
-          for="keywords"
+          htmlFor="keywords"
         >
           Min Year
         </label>
@@ -46,7 +46,7 @@ function SearchWidget() {
       <div>
         <label
           className=" w-full block barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2"
-          for="min-year"
+          htmlFor="min-year"
         >
           Max Year
         </label>

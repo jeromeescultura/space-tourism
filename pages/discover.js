@@ -15,6 +15,7 @@ function discover() {
             width={200}
             objectFit="cover"
             layout="fill"
+            alt="banner"
           />
           <div className="absolute top-1/2 w-full text-center">
             <h4 className="Bellefair uppercase text-xl md:text-3xl lg:text-6xl text-white">
