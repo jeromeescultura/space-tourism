@@ -1,3 +1,5 @@
+import { ChevronDownIcon } from "@heroicons/react/solid";
+
 function SearchWidget() {
   return (
     <div className="bg-gray-900 p-5 md:px-8 grid grid-cols-2 md:grid-cols-7 gap-2 border-b border-slate-500 items-end grid-flow-row-dense">
