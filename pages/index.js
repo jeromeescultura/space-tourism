@@ -29,8 +29,9 @@ export default function Home() {
       </div>
       <div className="lg:pt-24">
         <Link passHref href="/destination">
-          <div className="bg-white rounded-full w-32 h-32 md:w-56 md:h-56 items-center justify-center flex cursor-pointer duration-75 hover:bg-[#f2f2f2]">
-            <h2 className="Bellefair md:text-3xl">EXPLORE</h2>
+          <div className="relative bg-white rounded-full w-32 h-32 hover:w-60 hover:h-60 md:w-56 md:h-56 items-center justify-center flex cursor-pointer duration-75 border-[#fff02]  hover:border-[55px]">
+            <h2 className="Bellefair md:text-3xl text-black z-20">EXPLORE</h2>
+            {/* <div className="absolute bg-white opacity-20 rounded-full w-[230px] h-[230px]"></div> */}
           </div>
         </Link>
       </div>

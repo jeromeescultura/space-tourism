@@ -8,16 +8,74 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 
 export default function discover({ launches, launchpads }) {
   const [activeUrl, setActiveUrl] = useState("");
-
+  let [launchesData, setLaunchesData] = useState([]);
+  let [UserlaunchesData, setUserLaunchesData] = useState([]);
+  let [searchTerm, setSearchTerm] = useState("");
+  let [searchLaunchPad, setSearchLaunchPad] = useState("");
+  let [resultCount, setResultCount] = useState("");
+  let [filters, setFilters] = useState("");
+  useEffect(() => {
+    setLaunchesData(launches);
+    setUserLaunchesData(launches);
+  }, []);
   useEffect(() => {
     setActiveUrl(window.location.origin);
   }, [activeUrl]);
+  // useEffect(() => {
+  //   setSearchTerm(searchTerm);
+  // }, [searchTerm]);
 
   const scrollToResults = () => {
     window.scroll({ top: 550, left: 0, behavior: "smooth" });
   };
   const backToTop = () => {
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
+  };
+
+  const handleKeyword = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleLaunchPad = (value) => {
+    if (value !== "Any") {
+      setSearchLaunchPad(value);
+    } else {
+      setSearchLaunchPad("");
+    }
+  };
+
+  const handleSearch = () => {
+    // const newData = UserlaunchesData.filter((x) =>
+    //   x.flight_number.toString().includes(searchTerm)
+    // );
+    const newData = UserlaunchesData.filter(
+      (y) =>
+        y.flight_number.toString().toLowerCase() ==
+        (searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
+    ).filter(
+      (x) =>
+        x.launch_site.site_id.toLowerCase() ==
+        (searchLaunchPad == ""
+          ? x.launch_site.site_id
+          : searchLaunchPad.toLowerCase())
+    );
+    // const keyword = searchLaunchpad.filter((y) =>
+    //   y.flight_number.toString().includes(searchTerm)
+    // );
+    // .filter((y) =>
+    //   y.launch_site.site_id
+    //     .toLowerCase()
+    //     .includes(searchLaunchPad.toLowerCase())
+    // );
+    setLaunchesData(newData);
+    // console.log(newData.length);
+    // resultCount(data.length), "resultCount";
+    // return data.filter(
+    //   (item) =>
+    //     item.flight_number.toString().toLowerCase().includes(searchTerm) ||
+    //     item.rocket.rocket_name.toLowerCase().includes(searchTerm) ||
+    //     item.launch_site.site_name.toLowerCase().includes(searchTerm)
+    // );
   };
 
   return (
@@ -47,11 +105,25 @@ export default function discover({ launches, launchpads }) {
         <div className="absolute bottom-0   h-[100px] text-center w-full gradient"></div>
       </div>
       <div className="w-full mx-auto md:w-[90%] lg:w-[80%]">
-        <SearchWidget launchpads={launchpads} launches={launches} />
+        <SearchWidget
+          launchpads={launchpads}
+          launches={launches}
+          term={searchTerm}
+          query={handleKeyword}
+          searchLaunchPad={handleLaunchPad}
+          searchLaunchPadTerm={searchLaunchPad}
+          handleSearch={handleSearch}
+        />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
-          <p className="text-slate-400">Showing 5 Missions</p>
+          <p className="text-slate-400">
+            Showing {resultCount} {resultCount <= 1 ? "Mission" : "Missions"}
+          </p>
         </div>
-        <SearchFeed launches={launches} launchpads={launchpads} />
+        {UserlaunchesData && UserlaunchesData.length > 0 ? (
+          <SearchFeed launchesData={launchesData} launchpads={launchpads} />
+        ) : (
+          "No Data"
+        )}
       </div>
       <div className="py-10 w-[90%] md:w-[80%] mx-auto flex justify-between">
         <p className="text-sm text-slate-500 barlow">

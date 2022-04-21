@@ -55,7 +55,10 @@ function NavBar() {
             />
           </Link>
         </div>
-        <button className="md:hidden mr-5 " onClick={() => setOpen(!open)}>
+        <button
+          className={`${open ? "opacity-0 " : "opacity-100 "}md:hidden mr-5`}
+          onClick={() => setOpen(!open)}
+        >
           <Image
             tabIndex="0"
             src={menu}
@@ -94,7 +97,7 @@ function NavBar() {
       <div
         className={`${
           open ? "w-64" : "hidden"
-        }  z-10 right-0 h-screen backdrop-blur-[24px] bg-black/60 fixed text-white px-8 py-8 top-0 `}
+        }  z-10 right-0 h-screen backdrop-blur-[24px] bg-black/80 fixed text-white px-8 py-8 top-0 `}
       >
         <button className="float-right" onClick={() => setOpen(!open)}>
           <Image

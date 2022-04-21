@@ -30,7 +30,7 @@ function SearchRow({
   };
   return (
     <div className="flex p-4 gap-4 border-b border-slate-700 md:py-6 bg-slate-900">
-      <div className="text-left w-[100px]">
+      <div className="text-left w-[10%] ">
         <ImageWithFallback
           src={links.mission_patch}
           objectFit="contain"
@@ -40,13 +40,13 @@ function SearchRow({
           width={70}
         />
       </div>
-      <div className="flex-grow">
+      <div className="w-[80%]">
         <div>
           <h4 className="barlow text-white">
             {rocket.rocket_name} -{" "}
-            {payloads.map((payload) => payload.payload_id)} -{" "}
+            {payloads.map((payload) => payload.payload_id)}
             {!land_success && (
-              <span className="text-red-400">Failed Mission</span>
+              <span className="text-red-400"> - Failed Mission</span>
             )}
           </h4>
           <p className="barlow mt-2 text-gray-300 text-xs md:text-sm md:w-4/5">
@@ -126,7 +126,7 @@ function SearchRow({
             ))}
         </div>
       </div>
-      <div className="text-center w-[100px] md:w-[150px]">
+      <div className="text-center w-[10%]">
         <h2 className="barlow text-white">{flight_number}</h2>
         <p className="text-gray-400 barlow-condensed">Flight Number</p>
       </div>

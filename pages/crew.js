@@ -76,7 +76,7 @@ function crew() {
                     {crew.desc}
                   </p>
                 </div>
-            {/* Tablet */}
+                {/* Tablet */}
                 <div className="justify-center w-full px-6 hidden md:flex lg:hidden">
                   <div className="lg:w-full lg:h-full  w-1/2 h-1/2 text-center">
                     <Image
@@ -88,8 +88,6 @@ function crew() {
                     />
                   </div>
                 </div>
-
-                
                 {/* Desktop */}
                 <div className="text-center lg:w-full px-6 hidden lg:flex lg:mr-10 ">
                   <div className="lg:w-full md:mt-10 lg:mt-0">

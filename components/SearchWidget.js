@@ -1,41 +1,58 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import Moment from "react-moment";
 
-function SearchWidget({ launchpads, launches }) {
-  const [yearData, setYearData] = useState([
-    {
-      year: "",
-    },
-  ]);
-
-  // const handleLaunchYear = () => {
-  //   launches.map((launch) => console.log(launch.launch_date_local));
-  // };
-  // console.log(launchYear);
+function SearchWidget({
+  launchpads,
+  launches,
+  query,
+  searchLaunchPad,
+  searchLaunchPadTerm,
+  handleSearch,
+}) {
+  let [year, setYear] = useState([]);
+  let [launchpadsList, setLaunchpadsList] = useState([]);
+  const inputE1 = useRef("");
 
   useEffect(() => {
-    launches.map((item) =>
-      setYearData([...yearData, { year: item.launch_date_local }])
-    );
+    let newYear = launches.map((e) => e.launch_date_local);
+    setYear(newYear);
   }, []);
+  useEffect(() => {
+    let launchpadsList = launchpads.map((e) => e.id);
+    setLaunchpadsList(["Any", ...launchpadsList]);
+  }, []);
+  useEffect(() => {
+    query(inputE1.current.value);
+  }, [query]);
 
-  console.log(yearData);
+  const getSearchTerm = () => {
+    query(inputE1.current.value);
+  };
+
+  const getLaunchPad = (value) => {
+    searchLaunchPad(value);
+  };
+  // console.log(launchpadsList, "FSADS");
+
   return (
     <div className="bg-gray-900 p-5 md:px-8 grid grid-cols-2 md:grid-cols-7 gap-2 border-b border-slate-500 items-end grid-flow-row-dense">
+      {/* Search  Keyword */}
       <div className="md:col-span-2">
         <label
-          className=" w-full block barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2"
+          className=" text-white w-full block barlow-condensed text-kwhite text-xs md:text-sm uppercase font-bold mb-2"
           htmlFor="keywords"
         >
           Keywords
         </label>
         <input
+          ref={inputE1}
           className=" w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent focus:outline-none focus:shadow-outline"
           id="keywords"
           type="text"
           placeholder="eg Falcon"
+          onChange={getSearchTerm}
         />
       </div>
       <div className="md:col-span-2">
@@ -45,10 +62,10 @@ function SearchWidget({ launchpads, launches }) {
         <Menu as="div" className="relative w-full inline-block text-left">
           <div>
             <Menu.Button
-              className="inline-flex justify-between w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent focus:outline-none focus:shadow-outline border-gray-300 hover:border-white"
+              className="inline-flex justify-between w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent focus:outline-none focus:shadow-outline border-gray-300 hover:border-white text-xs"
               id="launchpad"
             >
-              Any
+              {searchLaunchPadTerm !== "" ? searchLaunchPadTerm : "Any"}
               <ChevronDownIcon
                 className="-mr-1 ml-2 h-5 w-5"
                 aria-hidden="true"
@@ -65,58 +82,25 @@ function SearchWidget({ launchpads, launches }) {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+            <Menu.Items
+              as="section"
+              className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+            >
               <div className="py-1">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray-100 text-gray-900" : "text-white"
-                      } block px-4 py-2 text-sm`}
-                    >
-                      Account settings
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray-100 text-gray-900" : "text-white"
-                      } block px-4 py-2 text-sm`}
-                    >
-                      Support
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray-100 text-gray-900" : "text-white"
-                      } block px-4 py-2 text-sm`}
-                    >
-                      License
-                    </a>
-                  )}
-                </Menu.Item>
-                <form method="POST" action="#">
-                  <Menu.Item>
+                {launchpadsList.map((site, id) => (
+                  <Menu.Item key={id}>
                     {({ active }) => (
-                      <button
-                        type="submit"
+                      <div
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-white"
-                        }  block w-full text-left px-4 py-2 text-sm`}
+                        }  px-4 py-2 text-sm cursor-pointer w-full`}
+                        onClick={() => getLaunchPad(site)}
                       >
-                        Sign out
-                      </button>
+                        {site}
+                      </div>
                     )}
                   </Menu.Item>
-                </form>
+                ))}
               </div>
             </Menu.Items>
           </Transition>
@@ -151,56 +135,62 @@ function SearchWidget({ launchpads, launches }) {
           >
             <Menu.Items className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
               <div className="py-1">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray-100 text-gray-900" : "text-white"
-                      } block px-4 py-2 text-sm`}
-                    >
-                      Account settings
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray-100 text-gray-900" : "text-white"
-                      } block px-4 py-2 text-sm`}
-                    >
-                      Support
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray-100 text-gray-900" : "text-white"
-                      } block px-4 py-2 text-sm`}
-                    >
-                      License
-                    </a>
-                  )}
-                </Menu.Item>
-                <form method="POST" action="#">
+                {/* {year.map((date) => (
                   <Menu.Item>
                     {({ active }) => (
-                      <button
-                        type="submit"
+                      <a
+                        href="#"
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-white"
-                        }  block w-full text-left px-4 py-2 text-sm`}
+                        } block px-4 py-2 text-sm`}
                       >
-                        Sign out
-                      </button>
+                        {date.launch_date_local}
+                      </a>
                     )}
                   </Menu.Item>
-                </form>
+                ))} */}
+                {/* 
+{posts.map(post =>
+    [...new Set(post.frontmatter.tags)].map(tag => (
+      <Link
+        key={tag + `tag`}
+        to={`/tags/${kebabCase(tag)}/`}
+        className="tag is light"
+      >
+        {tag}
+      </Link>
+    ))
+  )} */}
+                {/* {year.map((launchDate) =>
+                  [...new Set(launchDate)].map((yearDate) => (
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="#"
+                          className={`${
+                            active ? "bg-gray-100 text-gray-900" : "text-white"
+                          } block px-4 py-2 text-sm`}
+                        >
+                          {yearDate}
+                        </a>
+                      )}
+                    </Menu.Item>
+                  ))
+                )} */}
+                {year.map((date, id) => (
+                  <Menu.Item id={id}>
+                    {({ active }) => (
+                      <a
+                        href="#"
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-white"
+                        } block px-4 py-2 text-sm`}
+                      >
+                        <Moment date={date} format="YYYY" />
+                      </a>
+                    )}
+                  </Menu.Item>
+                ))}
               </div>
             </Menu.Items>
           </Transition>
@@ -291,7 +281,10 @@ function SearchWidget({ launchpads, launches }) {
         </Menu>
       </div>
       <div className="col-span-2 md:col-span-1 mt-4 md:mt-0">
-        <button className="barlow-condensed bg-white p-2 text-center text-black bold w-full  rounded-sm hover:bg-gray-200 transition duration-200 ease-in-out ">
+        <button
+          className="barlow-condensed bg-white p-2 text-center text-black bold w-full  rounded-sm hover:bg-gray-200 transition duration-200 ease-in-out "
+          onClick={handleSearch}
+        >
           Apply
         </button>
       </div>
