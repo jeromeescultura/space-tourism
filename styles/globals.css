@@ -76,6 +76,16 @@ code {
   bottom: 0 !important;
 }
 
+/* Button Hover */
+
+#control:hover ~ #target {
+  display: block;
+}
+
+#target {
+  display: none;
+}
+
 @media only screen and (min-width: 1024px) {
   .slick-dots {
     left: 0 !important;

@@ -71,8 +71,6 @@ export default function Discover({ launches, launchpads }) {
       <div className="relative h-[200px] sm:h-[300px] lg:h-[65vh] ">
         <Image
           src="/images/banner.png"
-          height={1000}
-          width={666}
           objectFit="cover"
           layout="fill"
           alt="banner"

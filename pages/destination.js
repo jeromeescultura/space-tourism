@@ -75,7 +75,7 @@ function Destination() {
                       selected === destination.title
                         ? "text-white underline underline-offset-8 "
                         : ""
-                    }uppercase cursor-pointer hover:text-white hover:underline underline-offset-8 transition duration-150 ease-in-out`}
+                    }uppercase cursor-pointer hover:text-gray-400 hover:underline underline-offset-8 transition duration-150 ease-in-out`}
                     onClick={() => setSelected(destination.title)}
                   >
                     {destination.title}

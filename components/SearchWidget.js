@@ -39,6 +39,7 @@ function SearchWidget({
   const getLaunchPad = (value) => {
     searchLaunchPad(value);
   };
+  // console.log(launchpadsList);
   return (
     <div className="bg-gray-900 p-5 md:px-8 grid grid-cols-2 md:grid-cols-7 gap-2 border-b border-slate-500 items-end grid-flow-row-dense">
       {/* Search  Keyword */}
@@ -91,7 +92,6 @@ function SearchWidget({
             >
               <div className="py-1">
                 {launchpadsList.map((site) =>
-                  // console.log(site),
                   site.map((x) => (
                     <Menu.Item key={x.id}>
                       {({ active }) => (
@@ -141,48 +141,6 @@ function SearchWidget({
           >
             <Menu.Items className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
               <div className="py-1">
-                {/* {year.map((date) => (
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-white"
-                        } block px-4 py-2 text-sm`}
-                      >
-                        {date.launch_date_local}
-                      </a>
-                    )}
-                  </Menu.Item>
-                ))} */}
-                {/* 
-{posts.map(post =>
-    [...new Set(post.frontmatter.tags)].map(tag => (
-      <Link
-        key={tag + `tag`}
-        to={`/tags/${kebabCase(tag)}/`}
-        className="tag is light"
-      >
-        {tag}
-      </Link>
-    ))
-  )} */}
-                {/* {year.map((launchDate) =>
-                  [...new Set(launchDate)].map((yearDate) => (
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={`${
-                            active ? "bg-gray-100 text-gray-900" : "text-white"
-                          } block px-4 py-2 text-sm`}
-                        >
-                          {yearDate}
-                        </a>
-                      )}
-                    </Menu.Item>
-                  ))
-                )} */}
                 {year.map((date, id) => (
                   <Menu.Item key={id}>
                     {({ active }) => (

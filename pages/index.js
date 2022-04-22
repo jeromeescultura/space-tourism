@@ -27,13 +27,33 @@ export default function Home() {
           this world experience!
         </p>
       </div>
-      <div className="lg:pt-24">
-        <Link passHref href="/destination">
+
+      <div
+        className="lg:pt-24 relative justify-center flex items-center"
+        id="parent"
+      >
+        <div
+          id="control"
+          className=" bg-white rounded-full w-32 h-32 md:w-56 md:h-56 items-center justify-center flex 
+          cursor-pointer duration-75  "
+        >
+          <Link passHref href="/destination">
+            <h2 className="Bellefair md:text-3xl text-black z-20 px-7 py-14 rounded-full">
+              EXPLORE
+            </h2>
+          </Link>
+        </div>
+        <div
+          id="target"
+          className="absolute bg-white opacity-20 rounded-full w-[230px] h-[230px]"
+        ></div>
+
+        {/* <Link passHref href="/destination">
           <div className="relative bg-white rounded-full w-32 h-32 hover:w-60 hover:h-60 md:w-56 md:h-56 items-center justify-center flex cursor-pointer duration-75 border-[#fff02]  hover:border-[55px]">
             <h2 className="Bellefair md:text-3xl text-black z-20">EXPLORE</h2>
-            {/* <div className="absolute bg-white opacity-20 rounded-full w-[230px] h-[230px]"></div> */}
+            <div className="absolute bg-white opacity-20 rounded-full w-[230px] h-[230px]"></div>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
