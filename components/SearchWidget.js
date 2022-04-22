@@ -14,37 +14,17 @@ function SearchWidget({
   minYearTerm,
   maxYear,
   maxYearTerm,
+  yearList,
+  launchpadsList,
 }) {
-  let [year, setYear] = useState([]);
-  let [launchpadsList, setLaunchpadsList] = useState([]);
+  const [keyword, setKeyword] = useState("");
   const inputE1 = useRef("");
 
-  useEffect(() => {
-    let newYear = launches.map((e) => e.launch_date_local);
-    let yearOnly = newYear.map((x) => formatDate(x));
-    const uniqueYears = [...new Set(yearOnly.map((q) => q))];
-    setYear(["Any", ...uniqueYears]);
-  }, []);
-  useEffect(() => {
-    let launchpadsList = launchpads.map((e) => [
-      {
-        id: e.id,
-        full_name: e.full_name,
-      },
-    ]);
-    setLaunchpadsList([[{ id: "Any", full_name: "Any" }], ...launchpadsList]);
-  }, []);
   useEffect(() => {
     query(inputE1.current.value);
   }, [query]);
 
-  // Date formatter
-  const formatDate = (dateString) => {
-    const options = { year: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
-  const getSearchTerm = () => {
+  const getSearchTerm = (event) => {
     query(inputE1.current.value);
   };
 
@@ -57,7 +37,6 @@ function SearchWidget({
   const getMinYear = (value) => {
     minYear(value);
   };
-
   return (
     <div className="bg-gray-900 p-5 md:px-8 grid grid-cols-2 md:grid-cols-7 gap-2 border-b border-slate-500 items-end grid-flow-row-dense">
       {/* Search  Keyword */}
@@ -70,7 +49,7 @@ function SearchWidget({
         </label>
         <input
           ref={inputE1}
-          className=" w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent "
+          className=" w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent"
           id="keywords"
           type="text"
           placeholder="eg Falcon"
@@ -78,10 +57,40 @@ function SearchWidget({
           onKeyPress={handleKeyPress}
         />
       </div>
+
+      {/* Launchpad Dropdown */}
       <div className="md:col-span-2">
-        <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
+        <label
+          className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 "
+          htmlFor="launchpad"
+        >
           Launch Pad
-        </p>
+        </label>
+
+        {/* <select
+          id="launchpad"
+          className="form-select appearance-none
+    focus:outline-none"
+          aria-label="Default select example"
+        >
+          <option
+            className="focuse:bg-gray-100 px-4 py-2 text-sm cursor-pointer w-full"
+            value=""
+          >
+            Any
+          </option>
+          {Object.keys(launchpadsList).map((key) =>
+            launchpadsList[key].map((x) => (
+              <option
+                className="focuse:bg-gray-100 px-4 py-2 text-sm cursor-pointer w-full"
+                key={x.id}
+              >
+                {x.full_name}
+              </option>
+            ))
+          )}
+        
+        </select> */}
         <Menu as="div" className="relative w-full inline-block text-left">
           <div>
             <Menu.Button
@@ -110,8 +119,20 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
-                {launchpadsList.map((site) =>
-                  site.map((x) => (
+                <Menu.Item tabIndex="-1">
+                  {({ active }) => (
+                    <div
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-white"
+                      }  px-4 py-2 text-sm cursor-pointer w-full`}
+                      onClick={() => getLaunchPad("Any")}
+                    >
+                      Any
+                    </div>
+                  )}
+                </Menu.Item>
+                {Object.keys(launchpadsList).map((key) =>
+                  launchpadsList[key].map((x) => (
                     <Menu.Item key={x.id} tabIndex="-1">
                       {({ active }) => (
                         <div
@@ -126,12 +147,28 @@ function SearchWidget({
                     </Menu.Item>
                   ))
                 )}
+                {/* {launchpadsList.map((site) =>
+                  site.map((x) => (
+                    <Menu.Item key={x.id} tabIndex="-1">
+                      {({ active }) => (
+                        <div
+                          className={`${
+                            active ? "bg-gray-100 text-gray-900" : "text-white"
+                          }  px-4 py-2 text-sm cursor-pointer w-full`}
+                          onClick={() => getLaunchPad(x.id)}
+                        >
+                          {x.full_name}
+                        </div>
+                      )}
+                    </Menu.Item>
+                  ))
+                )} */}
               </div>
             </Menu.Items>
           </Transition>
         </Menu>
       </div>
-      <div className="md:col-span-2">
+      <div>
         <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
           Max Year
         </p>
@@ -163,7 +200,7 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
-                {year.map((x, id) => (
+                {/* {yearList.map((x, id) => (
                   <Menu.Item key={id} tabIndex="-1">
                     {({ active }) => (
                       <div
@@ -176,7 +213,7 @@ function SearchWidget({
                       </div>
                     )}
                   </Menu.Item>
-                ))}
+                ))} */}
               </div>
             </Menu.Items>
           </Transition>
@@ -231,7 +268,7 @@ function SearchWidget({
           </Transition>
         </Menu>
       </div> */}
-      <div className="md:col-span-2">
+      <div>
         <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
           Min Year
         </p>
@@ -263,7 +300,7 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
-                {year.map((x, id) => (
+                {/* {yearList.map((x, id) => (
                   <Menu.Item key={id} tabIndex="-1">
                     {({ active }) => (
                       <div
@@ -276,7 +313,7 @@ function SearchWidget({
                       </div>
                     )}
                   </Menu.Item>
-                ))}
+                ))} */}
               </div>
             </Menu.Items>
           </Transition>

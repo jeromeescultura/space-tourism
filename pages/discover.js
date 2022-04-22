@@ -7,11 +7,14 @@ import SearchFeed from "../components/SearchFeed";
 import SearchWidget from "../components/SearchWidget";
 
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import SearchRow from "../components/SearchRow";
 
 export default function Discover({ launches, launchpads }) {
   let [launchesData, setLaunchesData] = useState([]);
   let [UserlaunchesData, setUserLaunchesData] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
+  let [launchpadsList, setLaunchpadsList] = useState("");
+  let [yearList, setYearList] = useState("");
   let [minYear, setMinYear] = useState("");
   let [minYearTerm, setMinYearTerm] = useState("");
   let [maxYear, setMaxYear] = useState("");
@@ -25,6 +28,30 @@ export default function Discover({ launches, launchpads }) {
     setUserLaunchesData(launches);
     setResultCount(launches.length);
   }, [launches]);
+
+  // Launchpad List
+  useEffect(() => {
+    let launchpadsList = launchpads.map((e) => [
+      {
+        id: e.id,
+        full_name: e.full_name,
+      },
+    ]);
+    setLaunchpadsList(launchpadsList);
+  }, []);
+
+  // Date
+  useEffect(() => {
+    let newYear = launches.map((e) => e.launch_date_local);
+    let yearOnly = newYear.map((x) => formatDate(x));
+    const uniqueYears = [...new Set(yearOnly.map((q) => q))];
+    setYearList(uniqueYears);
+  }, []);
+  // Date formatter
+  const formatDate = (dateString) => {
+    const options = { year: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   const scrollToResults = () => {
     window.scroll({ top: 550, left: 0, behavior: "smooth" });
@@ -71,17 +98,44 @@ export default function Discover({ launches, launchpads }) {
   };
 
   const handleSearch = () => {
-    const newData = UserlaunchesData.filter(
-      (y) =>
-        y.flight_number.toString().toLowerCase() ==
-        (searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
-    ).filter(
-      (x) =>
-        x.launch_site.site_id.toLowerCase() ==
-        (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
-    );
-    setLaunchesData(newData);
-    setResultCount(newData.length);
+    console.log(searchTerm, "asd");
+    if (searchTerm !== "") {
+      const newData = UserlaunchesData.filter((y) =>
+        y.rocket.rocket_name
+          .toLowerCase()
+          .includes(
+            searchTerm == "" ? y.rocket.rocket_name : searchTerm.toLowerCase()
+          )
+      )
+        .filter((x) =>
+          x.flight_number
+            .toString()
+            .toLowerCase()
+            .includes(
+              searchTerm == "" ? x.flight_number : searchTerm.toLowerCase()
+            )
+        )
+        .filter(
+          (x) =>
+            x.launch_site.site_id.toLowerCase() ==
+            (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
+        );
+      setLaunchesData(newData);
+      setResultCount(newData.length);
+    } else {
+      setLaunchesData(launches);
+    }
+
+    // const newData = UserlaunchesData.filter((y) =>
+    //   y.flight_number
+    //     .toString()
+    //     .toLowerCase()
+    //     .includes(searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
+    // ).filter(
+    //   (x) =>
+    //     x.launch_site.site_id.toLowerCase() ==
+    //     (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
+    // );
   };
 
   const handleKeyPress = (event) => {
@@ -128,16 +182,22 @@ export default function Discover({ launches, launchpads }) {
           maxYearTerm={maxYearTerm}
           handleSearch={handleSearch}
           handleKeyPress={handleKeyPress}
+          launchpadsList={launchpadsList}
+          yearList={yearList}
         />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
           <p className="text-slate-400">
             Showing {resultCount} {resultCount <= 1 ? "Mission" : "Missions"}
           </p>
         </div>
-        {UserlaunchesData && UserlaunchesData.length > 0 ? (
+        {UserlaunchesData && UserlaunchesData.length >= 0 && (
           <SearchFeed launchesData={launchesData} launchpads={launchpads} />
-        ) : (
-          "No Data"
+        )}
+
+        {resultCount === 0 && (
+          <div className="bg-slate-900 text-lg text-center py-20">
+            <p className="text-slate-400">No Result</p>
+          </div>
         )}
       </div>
       <div className="py-10 w-[90%] md:w-[80%] mx-auto flex justify-between">
