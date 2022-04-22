@@ -98,44 +98,18 @@ export default function Discover({ launches, launchpads }) {
   };
 
   const handleSearch = () => {
-    console.log(searchTerm, "asd");
-    if (searchTerm !== "") {
-      const newData = UserlaunchesData.filter((y) =>
-        y.rocket.rocket_name
-          .toLowerCase()
-          .includes(
-            searchTerm == "" ? y.rocket.rocket_name : searchTerm.toLowerCase()
-          )
-      )
-        .filter((x) =>
-          x.flight_number
-            .toString()
-            .toLowerCase()
-            .includes(
-              searchTerm == "" ? x.flight_number : searchTerm.toLowerCase()
-            )
-        )
-        .filter(
-          (x) =>
-            x.launch_site.site_id.toLowerCase() ==
-            (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
-        );
-      setLaunchesData(newData);
-      setResultCount(newData.length);
-    } else {
-      setLaunchesData(launches);
-    }
-
-    // const newData = UserlaunchesData.filter((y) =>
-    //   y.flight_number
-    //     .toString()
-    //     .toLowerCase()
-    //     .includes(searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
-    // ).filter(
-    //   (x) =>
-    //     x.launch_site.site_id.toLowerCase() ==
-    //     (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
-    // );
+    const newData = UserlaunchesData.filter((y) =>
+      y.flight_number
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
+    ).filter(
+      (x) =>
+        x.launch_site.site_id.toLowerCase() ==
+        (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
+    );
+    setLaunchesData(newData);
+    setResultCount(newData.length);
   };
 
   const handleKeyPress = (event) => {

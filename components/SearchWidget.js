@@ -200,7 +200,7 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
-                {/* {yearList.map((x, id) => (
+                {yearList.map((x, id) => (
                   <Menu.Item key={id} tabIndex="-1">
                     {({ active }) => (
                       <div
@@ -213,7 +213,7 @@ function SearchWidget({
                       </div>
                     )}
                   </Menu.Item>
-                ))} */}
+                ))}
               </div>
             </Menu.Items>
           </Transition>
@@ -300,7 +300,7 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
-                {/* {yearList.map((x, id) => (
+                {yearList.map((x, id) => (
                   <Menu.Item key={id} tabIndex="-1">
                     {({ active }) => (
                       <div
@@ -313,7 +313,7 @@ function SearchWidget({
                       </div>
                     )}
                   </Menu.Item>
-                ))} */}
+                ))}
               </div>
             </Menu.Items>
           </Transition>
