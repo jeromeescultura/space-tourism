@@ -7,14 +7,13 @@ import SearchFeed from "../components/SearchFeed";
 import SearchWidget from "../components/SearchWidget";
 
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import SearchRow from "../components/SearchRow";
 
 export default function Discover({ launches, launchpads }) {
   let [launchesData, setLaunchesData] = useState([]);
   let [UserlaunchesData, setUserLaunchesData] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
   let [launchpadsList, setLaunchpadsList] = useState("");
-  let [yearList, setYearList] = useState("");
+  let [yearList, setYearList] = useState([]);
   let [minYear, setMinYear] = useState("");
   let [minYearTerm, setMinYearTerm] = useState("");
   let [maxYear, setMaxYear] = useState("");
