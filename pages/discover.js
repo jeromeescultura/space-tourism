@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { server } from "../config";
+
 import Image from "next/image";
 import NavBar from "../components/NavBar";
 import SearchFeed from "../components/SearchFeed";
@@ -125,12 +127,18 @@ export default function Discover({ launches, launchpads }) {
   );
 }
 export async function getServerSideProps(context) {
-  const launches = await fetch("http://localhost:3000/api/launches").then(
-    (rest) => rest.json()
+  const launches = await fetch(`${server}/api/launches`).then((rest) =>
+    rest.json()
   );
-  const launchpads = await fetch("http://localhost:3000/api/launchpads").then(
-    (rest) => rest.json()
+  const launchpads = await fetch(`${server}/api/launchpads`).then((rest) =>
+    rest.json()
   );
+  // const launches = await fetch("http://localhost:3000/api/launches").then(
+  //   (rest) => rest.json()
+  // );
+  // const launchpads = await fetch("http://localhost:3000/api/launchpads").then(
+  //   (rest) => rest.json()
+  // );
 
   return {
     props: {
