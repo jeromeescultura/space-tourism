@@ -14,7 +14,6 @@ export default function Discover({ launches, launchpads }) {
   let [searchLaunchPad, setSearchLaunchPad] = useState("");
   let [searchLaunchPadTerm, setSearchLaunchPadTerm] = useState("");
   let [resultCount, setResultCount] = useState("");
-  let [filters, setFilters] = useState("");
 
   useEffect(() => {
     setLaunchesData(launches);
@@ -24,9 +23,6 @@ export default function Discover({ launches, launchpads }) {
   useEffect(() => {
     setActiveUrl(window.location.origin);
   }, [activeUrl]);
-  // useEffect(() => {
-  //   setSearchTerm(searchTerm);
-  // }, [searchTerm]);
 
   const scrollToResults = () => {
     window.scroll({ top: 550, left: 0, behavior: "smooth" });
@@ -40,7 +36,6 @@ export default function Discover({ launches, launchpads }) {
   };
 
   const handleLaunchPad = (value) => {
-    // console.log(searchLaunchPad);
     if (value !== "Any") {
       setSearchLaunchPad(value);
       launchpads.map((x) => {

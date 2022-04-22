@@ -184,7 +184,7 @@ function SearchWidget({
                   ))
                 )} */}
                 {year.map((date, id) => (
-                  <Menu.Item id={id}>
+                  <Menu.Item key={id}>
                     {({ active }) => (
                       <a
                         href="#"
