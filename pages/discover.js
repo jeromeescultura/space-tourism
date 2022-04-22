@@ -12,12 +12,14 @@ export default function Discover({ launches, launchpads }) {
   let [UserlaunchesData, setUserLaunchesData] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
   let [searchLaunchPad, setSearchLaunchPad] = useState("");
+  let [searchLaunchPadTerm, setSearchLaunchPadTerm] = useState("");
   let [resultCount, setResultCount] = useState("");
   let [filters, setFilters] = useState("");
 
   useEffect(() => {
     setLaunchesData(launches);
     setUserLaunchesData(launches);
+    setResultCount(launches.length);
   }, [launches]);
   useEffect(() => {
     setActiveUrl(window.location.origin);
@@ -38,17 +40,21 @@ export default function Discover({ launches, launchpads }) {
   };
 
   const handleLaunchPad = (value) => {
+    // console.log(searchLaunchPad);
     if (value !== "Any") {
       setSearchLaunchPad(value);
+      launchpads.map((x) => {
+        if (x.id.toLowerCase() === value.toLowerCase()) {
+          setSearchLaunchPadTerm(x.full_name);
+        }
+      });
     } else {
       setSearchLaunchPad("");
+      setSearchLaunchPadTerm("Any");
     }
   };
 
   const handleSearch = () => {
-    // const newData = UserlaunchesData.filter((x) =>
-    //   x.flight_number.toString().includes(searchTerm)
-    // );
     const newData = UserlaunchesData.filter(
       (y) =>
         y.flight_number.toString().toLowerCase() ==
@@ -60,23 +66,8 @@ export default function Discover({ launches, launchpads }) {
           ? x.launch_site.site_id
           : searchLaunchPad.toLowerCase())
     );
-    // const keyword = searchLaunchpad.filter((y) =>
-    //   y.flight_number.toString().includes(searchTerm)
-    // );
-    // .filter((y) =>
-    //   y.launch_site.site_id
-    //     .toLowerCase()
-    //     .includes(searchLaunchPad.toLowerCase())
-    // );
     setLaunchesData(newData);
-    // console.log(newData.length);
-    // resultCount(data.length), "resultCount";
-    // return data.filter(
-    //   (item) =>
-    //     item.flight_number.toString().toLowerCase().includes(searchTerm) ||
-    //     item.rocket.rocket_name.toLowerCase().includes(searchTerm) ||
-    //     item.launch_site.site_name.toLowerCase().includes(searchTerm)
-    // );
+    setResultCount(newData.length);
   };
 
   return (
@@ -112,7 +103,7 @@ export default function Discover({ launches, launchpads }) {
           term={searchTerm}
           query={handleKeyword}
           searchLaunchPad={handleLaunchPad}
-          searchLaunchPadTerm={searchLaunchPad}
+          searchLaunchPadTerm={searchLaunchPadTerm}
           handleSearch={handleSearch}
         />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">

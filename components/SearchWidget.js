@@ -20,8 +20,13 @@ function SearchWidget({
     setYear(newYear);
   }, []);
   useEffect(() => {
-    let launchpadsList = launchpads.map((e) => e.id);
-    setLaunchpadsList(["Any", ...launchpadsList]);
+    let launchpadsList = launchpads.map((e) => [
+      {
+        id: e.id,
+        full_name: e.full_name,
+      },
+    ]);
+    setLaunchpadsList([[{ id: "Any", full_name: "Any" }], ...launchpadsList]);
   }, []);
   useEffect(() => {
     query(inputE1.current.value);
@@ -34,8 +39,6 @@ function SearchWidget({
   const getLaunchPad = (value) => {
     searchLaunchPad(value);
   };
-  // console.log(launchpadsList, "FSADS");
-
   return (
     <div className="bg-gray-900 p-5 md:px-8 grid grid-cols-2 md:grid-cols-7 gap-2 border-b border-slate-500 items-end grid-flow-row-dense">
       {/* Search  Keyword */}
@@ -65,7 +68,7 @@ function SearchWidget({
               className="inline-flex justify-between w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent focus:outline-none focus:shadow-outline border-gray-300 hover:border-white text-xs"
               id="launchpad"
             >
-              {searchLaunchPadTerm !== "" ? searchLaunchPadTerm : "Any"}
+              {searchLaunchPadTerm ? searchLaunchPadTerm : "Any"}
               <ChevronDownIcon
                 className="-mr-1 ml-2 h-5 w-5"
                 aria-hidden="true"
@@ -87,20 +90,23 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
             >
               <div className="py-1">
-                {launchpadsList.map((site, id) => (
-                  <Menu.Item key={id}>
-                    {({ active }) => (
-                      <div
-                        className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-white"
-                        }  px-4 py-2 text-sm cursor-pointer w-full`}
-                        onClick={() => getLaunchPad(site)}
-                      >
-                        {site}
-                      </div>
-                    )}
-                  </Menu.Item>
-                ))}
+                {launchpadsList.map((site) =>
+                  // console.log(site),
+                  site.map((x) => (
+                    <Menu.Item key={x.id}>
+                      {({ active }) => (
+                        <div
+                          className={`${
+                            active ? "bg-gray-100 text-gray-900" : "text-white"
+                          }  px-4 py-2 text-sm cursor-pointer w-full`}
+                          onClick={() => getLaunchPad(x.id)}
+                        >
+                          {x.full_name}
+                        </div>
+                      )}
+                    </Menu.Item>
+                  ))
+                )}
               </div>
             </Menu.Items>
           </Transition>
