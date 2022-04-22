@@ -6,7 +6,7 @@ import SearchWidget from "../components/SearchWidget";
 
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
-export default function discover({ launches, launchpads }) {
+export default function Discover({ launches, launchpads }) {
   const [activeUrl, setActiveUrl] = useState("");
   let [launchesData, setLaunchesData] = useState([]);
   let [UserlaunchesData, setUserLaunchesData] = useState([]);
@@ -14,10 +14,11 @@ export default function discover({ launches, launchpads }) {
   let [searchLaunchPad, setSearchLaunchPad] = useState("");
   let [resultCount, setResultCount] = useState("");
   let [filters, setFilters] = useState("");
+
   useEffect(() => {
     setLaunchesData(launches);
     setUserLaunchesData(launches);
-  }, []);
+  }, [launches]);
   useEffect(() => {
     setActiveUrl(window.location.origin);
   }, [activeUrl]);

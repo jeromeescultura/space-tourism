@@ -43,7 +43,7 @@ var settings = {
   slidesToScroll: 1,
 };
 
-function crew() {
+export default function Crew() {
   return (
     <>
       <NavBar />
@@ -171,5 +171,3 @@ function crew() {
     </>
   );
 }
-
-export default crew;

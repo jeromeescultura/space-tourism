@@ -1,7 +1,7 @@
 import { Combobox } from "@headlessui/react";
 import { useState, useEffect } from "react";
 
-function search() {
+export default function Search() {
   const [launchesData, setLaunchesData] = useState([]);
   const [searchLaunchesData, setSearchLaunchesData] = useState([]);
   const [query, setQuery] = useState("");
@@ -85,5 +85,3 @@ function search() {
     </>
   );
 }
-
-export default search;
