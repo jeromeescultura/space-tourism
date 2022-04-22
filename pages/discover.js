@@ -9,12 +9,15 @@ import SearchWidget from "../components/SearchWidget";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 export default function Discover({ launches, launchpads }) {
-  const [activeUrl, setActiveUrl] = useState("");
   let [launchesData, setLaunchesData] = useState([]);
   let [UserlaunchesData, setUserLaunchesData] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
-  let [searchLaunchPad, setSearchLaunchPad] = useState("");
-  let [searchLaunchPadTerm, setSearchLaunchPadTerm] = useState("");
+  let [minYear, setMinYear] = useState("");
+  let [minYearTerm, setMinYearTerm] = useState("");
+  let [maxYear, setMaxYear] = useState("");
+  let [maxYearTerm, setMaxYearTerm] = useState("");
+  let [LaunchPad, setLaunchPad] = useState("");
+  let [LaunchPadTerm, setLaunchPadTerm] = useState("");
   let [resultCount, setResultCount] = useState("");
 
   useEffect(() => {
@@ -22,9 +25,6 @@ export default function Discover({ launches, launchpads }) {
     setUserLaunchesData(launches);
     setResultCount(launches.length);
   }, [launches]);
-  useEffect(() => {
-    setActiveUrl(window.location.origin);
-  }, [activeUrl]);
 
   const scrollToResults = () => {
     window.scroll({ top: 550, left: 0, behavior: "smooth" });
@@ -39,15 +39,34 @@ export default function Discover({ launches, launchpads }) {
 
   const handleLaunchPad = (value) => {
     if (value !== "Any") {
-      setSearchLaunchPad(value);
+      setLaunchPad(value);
       launchpads.map((x) => {
         if (x.id.toLowerCase() === value.toLowerCase()) {
-          setSearchLaunchPadTerm(x.full_name);
+          setLaunchPadTerm(x.full_name);
         }
       });
     } else {
-      setSearchLaunchPad("");
-      setSearchLaunchPadTerm("Any");
+      setLaunchPad("");
+      setLaunchPadTerm("Any");
+    }
+  };
+
+  const handleMinYear = (value) => {
+    if (value !== "Any") {
+      setMinYear(value);
+      setMinYearTerm(value);
+    } else {
+      setMinYear("");
+      setMinYearTerm("Any");
+    }
+  };
+  const handleMaxYear = (value) => {
+    if (value !== "Any") {
+      setMaxYear(value);
+      setMaxYearTerm(value);
+    } else {
+      setMaxYear("");
+      setMaxYearTerm("Any");
     }
   };
 
@@ -59,12 +78,16 @@ export default function Discover({ launches, launchpads }) {
     ).filter(
       (x) =>
         x.launch_site.site_id.toLowerCase() ==
-        (searchLaunchPad == ""
-          ? x.launch_site.site_id
-          : searchLaunchPad.toLowerCase())
+        (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
     );
     setLaunchesData(newData);
     setResultCount(newData.length);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -97,9 +120,14 @@ export default function Discover({ launches, launchpads }) {
           launches={launches}
           term={searchTerm}
           query={handleKeyword}
-          searchLaunchPad={handleLaunchPad}
-          searchLaunchPadTerm={searchLaunchPadTerm}
+          LaunchPad={handleLaunchPad}
+          LaunchPadTerm={LaunchPadTerm}
+          minYear={handleMinYear}
+          minYearTerm={minYearTerm}
+          maxYear={handleMaxYear}
+          maxYearTerm={maxYearTerm}
           handleSearch={handleSearch}
+          handleKeyPress={handleKeyPress}
         />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
           <p className="text-slate-400">
