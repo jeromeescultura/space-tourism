@@ -3,46 +3,35 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 function SearchWidget({
-  launchpads,
-  launches,
   query,
   LaunchPad,
   LaunchPadTerm,
   handleSearch,
-  handleKeyPress,
   minYear,
   minYearTerm,
   maxYear,
   maxYearTerm,
+  dateList,
+  launchpadsList,
 }) {
-  let [year, setYear] = useState([]);
-  let [launchpadsList, setLaunchpadsList] = useState([]);
+  // let [year, setYear] = useState([]);
   const inputE1 = useRef("");
 
-  useEffect(() => {
-    let newYear = launches.map((e) => e.launch_date_local);
-    let yearOnly = newYear.map((x) => formatDate(x));
-    const uniqueYears = [...new Set(yearOnly.map((q) => q))];
-    setYear(["Any", ...uniqueYears]);
-  }, []);
-  useEffect(() => {
-    let launchpadsList = launchpads.map((e) => [
-      {
-        id: e.id,
-        full_name: e.full_name,
-      },
-    ]);
-    setLaunchpadsList([[{ id: "Any", full_name: "Any" }], ...launchpadsList]);
-  }, []);
-  useEffect(() => {
-    query(inputE1.current.value);
-  }, [query]);
-
-  // Date formatter
-  const formatDate = (dateString) => {
-    const options = { year: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
+  // useEffect(() => {
+  //   let newYear = launches.map((e) => e.launch_date_local);
+  //   let yearOnly = newYear.map((x) => dateFormatter(x));
+  //   const uniqueYears = [...new Set(yearOnly.map((q) => q))];
+  //   setYear(["Any", ...uniqueYears]);
+  // }, []);
+  // useEffect(() => {
+  //   let launchpadsList = launchpads.map((e) => [
+  //     {
+  //       id: e.id,
+  //       full_name: e.full_name,
+  //     },
+  //   ]);
+  //   setLaunchpadsList([[{ id: "Any", full_name: "Any" }], ...launchpadsList]);
+  // }, []);
 
   const getSearchTerm = () => {
     query(inputE1.current.value);
@@ -57,7 +46,6 @@ function SearchWidget({
   const getMinYear = (value) => {
     minYear(value);
   };
-
   return (
     <div className="bg-gray-900 p-5 md:px-8 grid grid-cols-2 md:grid-cols-7 gap-2 border-b border-slate-500 items-end grid-flow-row-dense">
       {/* Search  Keyword */}
@@ -75,7 +63,6 @@ function SearchWidget({
           type="text"
           placeholder="eg Falcon"
           onChange={getSearchTerm}
-          onKeyPress={handleKeyPress}
         />
       </div>
       <div className="md:col-span-2">
@@ -110,6 +97,18 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
+                <Menu.Item tabIndex="-1">
+                  {({ active }) => (
+                    <div
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-white"
+                      }  px-4 py-2 text-sm cursor-pointer w-full`}
+                      onClick={() => getLaunchPad("Any")}
+                    >
+                      Any
+                    </div>
+                  )}
+                </Menu.Item>
                 {launchpadsList.map((site) =>
                   site.map((x) => (
                     <Menu.Item key={x.id} tabIndex="-1">
@@ -131,7 +130,7 @@ function SearchWidget({
           </Transition>
         </Menu>
       </div>
-      <div className="md:col-span-2">
+      <div className="">
         <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
           Max Year
         </p>
@@ -163,7 +162,19 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
-                {year.map((x, id) => (
+                <Menu.Item tabIndex="-1">
+                  {({ active }) => (
+                    <div
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-white"
+                      }  px-4 py-2 text-sm cursor-pointer w-full`}
+                      onClick={() => getMaxYear("Any")}
+                    >
+                      Any
+                    </div>
+                  )}
+                </Menu.Item>
+                {dateList.map((x, id) => (
                   <Menu.Item key={id} tabIndex="-1">
                     {({ active }) => (
                       <div
@@ -231,7 +242,7 @@ function SearchWidget({
           </Transition>
         </Menu>
       </div> */}
-      <div className="md:col-span-2">
+      <div>
         <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
           Min Year
         </p>
@@ -263,7 +274,19 @@ function SearchWidget({
               className="origin-top-right absolute right-0 mt-2 w-full rounded-sm shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
             >
               <div className="py-1">
-                {year.map((x, id) => (
+                <Menu.Item tabIndex="-1">
+                  {({ active }) => (
+                    <div
+                      className={`${
+                        active ? "bg-gray-100 text-gray-900" : "text-white"
+                      }  px-4 py-2 text-sm cursor-pointer w-full`}
+                      onClick={() => getMinYear("Any")}
+                    >
+                      Any
+                    </div>
+                  )}
+                </Menu.Item>
+                {dateList.map((x, id) => (
                   <Menu.Item key={id} tabIndex="-1">
                     {({ active }) => (
                       <div

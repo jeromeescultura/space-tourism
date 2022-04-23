@@ -7,6 +7,7 @@ import SearchFeed from "../components/SearchFeed";
 import SearchWidget from "../components/SearchWidget";
 
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import dateFormatter from "../components/DateFormatter";
 
 export default function Discover({ launches, launchpads }) {
   let [launchesData, setLaunchesData] = useState([]);
@@ -33,8 +34,29 @@ export default function Discover({ launches, launchpads }) {
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
   };
 
-  const handleKeyword = (searchTerm) => {
-    setSearchTerm(searchTerm);
+  const generateYearListDropdown = () => {
+    let newYear = launchesData.map((e) => dateFormatter(e.launch_date_local));
+    return [...new Set(newYear.map((year) => year))];
+  };
+
+  const generateLaunchPadListDropdown = () => {
+    let list = launchpads.map((e) => [
+      {
+        id: e.id,
+        full_name: e.full_name,
+      },
+    ]);
+    return list;
+  };
+
+  const handleKeyword = (query) => {
+    const newData = UserlaunchesData.filter((y) =>
+      y.flight_number
+        .toString()
+        .toLowerCase()
+        .includes(query == "" ? y.flight_number : query.toLowerCase())
+    );
+    setLaunchesData(newData);
   };
 
   const handleLaunchPad = (value) => {
@@ -71,23 +93,17 @@ export default function Discover({ launches, launchpads }) {
   };
 
   const handleSearch = () => {
-    const newData = UserlaunchesData.filter(
-      (y) =>
-        y.flight_number.toString().toLowerCase() ==
-        (searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
-    ).filter(
-      (x) =>
-        x.launch_site.site_id.toLowerCase() ==
-        (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
-    );
-    setLaunchesData(newData);
-    setResultCount(newData.length);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSearch();
-    }
+    // const newData = UserlaunchesData.filter(
+    //   (y) =>
+    //     y.flight_number.toString().toLowerCase() ==
+    //     (searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
+    // ).filter(
+    //   (x) =>
+    //     x.launch_site.site_id.toLowerCase() ==
+    //     (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
+    // );
+    // setLaunchesData(newData);
+    // setResultCount(newData.length);
   };
 
   return (
@@ -99,7 +115,7 @@ export default function Discover({ launches, launchpads }) {
           objectFit="cover"
           layout="fill"
           alt="banner"
-          loading="lazy"
+          priority
         />
         <div className="absolute top-1/2 w-full text-center">
           <h4 className="Bellefair uppercase text-xl md:text-3xl lg:text-6xl text-white">
@@ -118,7 +134,6 @@ export default function Discover({ launches, launchpads }) {
         <SearchWidget
           launchpads={launchpads}
           launches={launches}
-          term={searchTerm}
           query={handleKeyword}
           LaunchPad={handleLaunchPad}
           LaunchPadTerm={LaunchPadTerm}
@@ -127,7 +142,8 @@ export default function Discover({ launches, launchpads }) {
           maxYear={handleMaxYear}
           maxYearTerm={maxYearTerm}
           handleSearch={handleSearch}
-          handleKeyPress={handleKeyPress}
+          dateList={generateYearListDropdown()}
+          launchpadsList={generateLaunchPadListDropdown()}
         />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
           <p className="text-slate-400">
