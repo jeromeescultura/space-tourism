@@ -1,51 +1,81 @@
 import { Fragment, useState, useEffect, useRef } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import dateFormatter from "./DateFormatter";
 
 function SearchWidget({
-  query,
-  LaunchPad,
-  LaunchPadTerm,
-  handleSearch,
-  minYear,
-  minYearTerm,
-  maxYear,
-  maxYearTerm,
+  // query,
   dateList,
   launchpadsList,
+  // handlePad,
+  handleDate,
+
+  // LaunchPad,
+  // LaunchPadTerm,
+  handleSearch,
+  // minYear,
+  // minYearTerm,
+  // maxYear,
+  // maxYearTerm,
+  // dateList,
+  // launchpadsList,
 }) {
-  // let [year, setYear] = useState([]);
-  const inputE1 = useRef("");
+  const [keyword, setKeyword] = useState("");
+  const [pad, setPad] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
 
-  // useEffect(() => {
-  //   let newYear = launches.map((e) => e.launch_date_local);
-  //   let yearOnly = newYear.map((x) => dateFormatter(x));
-  //   const uniqueYears = [...new Set(yearOnly.map((q) => q))];
-  //   setYear(["Any", ...uniqueYears]);
-  // }, []);
-  // useEffect(() => {
-  //   let launchpadsList = launchpads.map((e) => [
-  //     {
-  //       id: e.id,
-  //       full_name: e.full_name,
-  //     },
-  //   ]);
-  //   setLaunchpadsList([[{ id: "Any", full_name: "Any" }], ...launchpadsList]);
-  // }, []);
+  const [filters, setFilters] = useState({
+    keyword: "",
+    pad: "",
+    from: "",
+    to: "",
+  });
 
-  const getSearchTerm = () => {
-    query(inputE1.current.value);
+  const handleInput = (field) => (event) => {
+    const { value } = event.target;
+    setFilters({
+      ...filters,
+      [field]: value,
+    });
+
+    switch (field) {
+      case "keyword":
+        setKeyword(value);
+        // query(value);
+        break;
+      case "pad":
+        setPad(value);
+        // handlePad(value);
+        break;
+      case "from":
+        setFrom(value);
+        // handleDate(value, "from");
+        break;
+      case "to":
+        setTo(value);
+        // handleDate(value, "to");
+        break;
+      default:
+        break;
+    }
   };
 
-  const getLaunchPad = (value) => {
-    LaunchPad(value);
+  const handleButton = () => {
+    handleSearch(filters);
   };
-  const getMaxYear = (value) => {
-    maxYear(value);
-  };
-  const getMinYear = (value) => {
-    minYear(value);
-  };
+
+  // console.log(filters, "filters");
+
+  // const getLaunchPad = (value) => {
+  //   LaunchPad(value);
+  // };
+  // const getMaxYear = (value) => {
+  //   maxYear(value);
+  // };
+  // const getMinYear = (value) => {
+  //   minYear(value);
+  // };
   return (
     <div className="bg-gray-900 p-5 md:px-8 grid grid-cols-2 md:grid-cols-7 gap-2 border-b border-slate-500 items-end grid-flow-row-dense">
       {/* Search  Keyword */}
@@ -57,15 +87,42 @@ function SearchWidget({
           Keywords
         </label>
         <input
-          ref={inputE1}
           className=" w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent "
           id="keywords"
           type="text"
           placeholder="eg Falcon"
-          onChange={getSearchTerm}
+          value={filters.keyword}
+          onChange={handleInput("keyword")}
         />
       </div>
       <div className="md:col-span-2">
+        <label htmlFor="pad">Launch Pad</label>
+        <select id="pad" onChange={handleInput("pad")} className="w-full">
+          <option value="">Any</option>
+          {launchpadsList.map((pads) =>
+            pads.map((pad) => <option value={pad.id}>{pad.full_name}</option>)
+          )}
+        </select>
+      </div>
+      <div>
+        <label htmlFor="maxYear">Max Year</label>
+        <select id="maxYear" onChange={handleInput("to")} className="w-full">
+          <option value="">Any</option>
+          {dateList.map((year) => (
+            <option value={year}>{year}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label htmlFor="minYear">Min Year</label>
+        <select id="minYear" onChange={handleInput("from")} className="w-full">
+          <option value="">Any</option>
+          {dateList.map((year) => (
+            <option value={year}>{year}</option>
+          ))}
+        </select>
+      </div>
+      {/* <div className="md:col-span-2">
         <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
           Launch Pad
         </p>
@@ -75,7 +132,7 @@ function SearchWidget({
               className="inline-flex justify-between w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent border-gray-300 hover:border-white text-xs"
               id="launchpad"
             >
-              {LaunchPadTerm ? LaunchPadTerm : "Any"}
+              Any
               <ChevronDownIcon
                 className="-mr-1 ml-2 h-5 w-5"
                 aria-hidden="true"
@@ -103,7 +160,7 @@ function SearchWidget({
                       className={`${
                         active ? "bg-gray-100 text-gray-900" : "text-white"
                       }  px-4 py-2 text-sm cursor-pointer w-full`}
-                      onClick={() => getLaunchPad("Any")}
+                      onClick={() => handleInput("pad")}
                     >
                       Any
                     </div>
@@ -117,7 +174,7 @@ function SearchWidget({
                           className={`${
                             active ? "bg-gray-100 text-gray-900" : "text-white"
                           }  px-4 py-2 text-sm cursor-pointer w-full`}
-                          onClick={() => getLaunchPad(x.id)}
+                          onClick={() => handleInput(x.id)}
                         >
                           {x.full_name}
                         </div>
@@ -129,8 +186,8 @@ function SearchWidget({
             </Menu.Items>
           </Transition>
         </Menu>
-      </div>
-      <div className="">
+      </div> */}
+      {/* <div className="">
         <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
           Max Year
         </p>
@@ -140,7 +197,7 @@ function SearchWidget({
               className="inline-flex justify-between w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent border-gray-300 hover:border-white text-xs"
               id="launchpad"
             >
-              {maxYearTerm ? maxYearTerm : "Any"}
+              Any
               <ChevronDownIcon
                 className="-mr-1 ml-2 h-5 w-5"
                 aria-hidden="true"
@@ -192,7 +249,7 @@ function SearchWidget({
             </Menu.Items>
           </Transition>
         </Menu>
-      </div>
+      </div> */}
       {/*       
       <div className="">
         <p className="barlow-condensed text-white text-xs md:text-sm uppercase font-bold mb-2 ">
@@ -252,7 +309,8 @@ function SearchWidget({
               className="inline-flex justify-between w-full barlow-condensed appearance-none border rounded-sm py-2 px-3 text-white leading-tight bg-transparent border-gray-300 hover:border-white text-xs"
               id="launchpad"
             >
-              {minYearTerm ? minYearTerm : "Any"}
+              {/* {minYearTerm ? minYearTerm : "Any"} */}
+              Any
               <ChevronDownIcon
                 className="-mr-1 ml-2 h-5 w-5"
                 aria-hidden="true"
@@ -308,7 +366,7 @@ function SearchWidget({
       <div className="col-span-2 md:col-span-1 mt-4 md:mt-0">
         <button
           className="barlow-condensed bg-white p-2 text-center text-black bold w-full  rounded-sm hover:bg-gray-200 transition duration-200 ease-in-out "
-          onClick={handleSearch}
+          onClick={handleButton}
         >
           Apply
         </button>

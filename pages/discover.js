@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { server } from "../config";
+import dayjs from "dayjs";
 
 import Image from "next/image";
 import NavBar from "../components/NavBar";
@@ -9,22 +10,16 @@ import SearchWidget from "../components/SearchWidget";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import dateFormatter from "../components/DateFormatter";
 
+const isBetween = require("dayjs/plugin/isBetween");
+dayjs.extend(isBetween);
+
 export default function Discover({ launches, launchpads }) {
   let [launchesData, setLaunchesData] = useState([]);
   let [UserlaunchesData, setUserLaunchesData] = useState([]);
-  let [searchTerm, setSearchTerm] = useState("");
-  let [minYear, setMinYear] = useState("");
-  let [minYearTerm, setMinYearTerm] = useState("");
-  let [maxYear, setMaxYear] = useState("");
-  let [maxYearTerm, setMaxYearTerm] = useState("");
-  let [LaunchPad, setLaunchPad] = useState("");
-  let [LaunchPadTerm, setLaunchPadTerm] = useState("");
-  let [resultCount, setResultCount] = useState("");
 
   useEffect(() => {
     setLaunchesData(launches);
     setUserLaunchesData(launches);
-    setResultCount(launches.length);
   }, [launches]);
 
   const scrollToResults = () => {
@@ -49,50 +44,119 @@ export default function Discover({ launches, launchpads }) {
     return list;
   };
 
-  const handleKeyword = (query) => {
-    const newData = UserlaunchesData.filter((y) =>
-      y.flight_number
-        .toString()
-        .toLowerCase()
-        .includes(query == "" ? y.flight_number : query.toLowerCase())
-    );
-    setLaunchesData(newData);
-  };
+  // const handleKeyword = (query) => {
+  //   const filteredData = launchesData.filter((item) => {
+  //     if (
+  //       item.flight_number
+  //         .toString()
+  //         .toLowerCase()
+  //         .includes(query.toLowerCase())
+  //     ) {
+  //       return item;
+  //     }
+  //   });
+  //   setUserLaunchesData(filteredData);
+  // };
 
-  const handleLaunchPad = (value) => {
-    if (value !== "Any") {
-      setLaunchPad(value);
-      launchpads.map((x) => {
-        if (x.id.toLowerCase() === value.toLowerCase()) {
-          setLaunchPadTerm(x.full_name);
+  const handlePad = (pad) => {
+    if (pad !== "") {
+      const filteredData = launchesData.filter((item) => {
+        if (item.launch_site.site_id === pad) {
+          return item;
         }
       });
+      setUserLaunchesData(filteredData);
     } else {
-      setLaunchPad("");
-      setLaunchPadTerm("Any");
+      setUserLaunchesData(launchesData);
+    }
+  };
+  const handleDate = (date, field) => {
+    if (date !== "") {
+      const filteredData = launchesData.filter((item) => {
+        dayjs(item.launch_date_local).isBetween(
+          field === "from" && date,
+          dayjs(field === "to" && date)
+        );
+
+        // if (
+        //   field === "to" &&
+        //   dayjs(item.launch_date_local).isSameOrBefore(dayjs(date))
+        // ) {
+        //   return item;
+        // } else if (
+        //   field === "from" &&
+        //   dayjs(item.launch_date_local).isSameOrAfter(dayjs(date))
+        // ) {
+        //   return item;
+        // }
+      });
+      setUserLaunchesData(filteredData);
+    } else {
+      setUserLaunchesData(launchesData);
     }
   };
 
-  const handleMinYear = (value) => {
-    if (value !== "Any") {
-      setMinYear(value);
-      setMinYearTerm(value);
-    } else {
-      setMinYear("");
-      setMinYearTerm("Any");
-    }
-  };
-  const handleMaxYear = (value) => {
-    if (value !== "Any") {
-      setMaxYear(value);
-      setMaxYearTerm(value);
-    } else {
-      setMaxYear("");
-      setMaxYearTerm("Any");
-    }
-  };
+  // const handleLaunchPad = (value) => {
+  //   if (value !== "Any") {
+  //     setLaunchPad(value);
+  //     launchpads.map((x) => {
+  //       if (x.id.toLowerCase() === value.toLowerCase()) {
+  //         setLaunchPadTerm(x.full_name);
+  //       }
+  //     });
+  //   } else {
+  //     setLaunchPad("");
+  //     setLaunchPadTerm("Any");
+  //   }
+  // };
 
-  const handleSearch = () => {
+  // const handleMinYear = (value) => {
+  //   if (value !== "Any") {
+  //     setMinYear(value);
+  //     setMinYearTerm(value);
+  //   } else {
+  //     setMinYear("");
+  //     setMinYearTerm("Any");
+  //   }
+  // };
+  // const handleMaxYear = (value) => {
+  //   if (value !== "Any") {
+  //     setMaxYear(value);
+  //     setMaxYearTerm(value);
+  //   } else {
+  //     setMaxYear("");
+  //     setMaxYearTerm("Any");
+  //   }
+  // };
+
+  const handleSearch = (filters) => {
+    console.log(filters, "clik");
+    const filteredData = launchesData.filter((item) => {
+      if (
+        item.flight_number
+          .toString()
+          .toLowerCase()
+          .includes(filters.keyword.toLowerCase())
+      ) {
+        return item;
+      } else if (
+        item.rocket.rocket_name
+          .toLowerCase()
+          .includes(filters.keyword.toLowerCase())
+      ) {
+        return item;
+      }
+
+      // else if (filters.pad !== "") {
+      //   return item.launch_site.site_id === filters.pad;
+      // }
+
+      // else if (item.launch_site.site_id === filters.pad) {
+      //   return item;
+      // }
+    });
+    setUserLaunchesData(filteredData);
+
     // const newData = UserlaunchesData.filter(
     //   (y) =>
     //     y.flight_number.toString().toLowerCase() ==
@@ -132,26 +196,29 @@ export default function Discover({ launches, launchpads }) {
       </div>
       <div className="w-full mx-auto md:w-[90%] lg:w-[80%]">
         <SearchWidget
-          launchpads={launchpads}
-          launches={launches}
-          query={handleKeyword}
-          LaunchPad={handleLaunchPad}
-          LaunchPadTerm={LaunchPadTerm}
-          minYear={handleMinYear}
-          minYearTerm={minYearTerm}
-          maxYear={handleMaxYear}
-          maxYearTerm={maxYearTerm}
+          // launchpads={launchpads}
+          // launches={launches}
+          // query={handleKeyword}
+          // LaunchPad={handleLaunchPad}
+          // LaunchPadTerm={LaunchPadTerm}
+          // minYear={handleMinYear}
+          // minYearTerm={minYearTerm}
+          // maxYear={handleMaxYear}
+          // maxYearTerm={maxYearTerm}
           handleSearch={handleSearch}
           dateList={generateYearListDropdown()}
           launchpadsList={generateLaunchPadListDropdown()}
+          // handlePad={handlePad}
+          handleDate={handleDate}
         />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
           <p className="text-slate-400">
-            Showing {resultCount} {resultCount <= 1 ? "Mission" : "Missions"}
+            Showing {UserlaunchesData.length}{" "}
+            {UserlaunchesData.length <= 1 ? "Mission" : "Missions"}
           </p>
         </div>
         {UserlaunchesData && UserlaunchesData.length > 0 ? (
-          <SearchFeed launchesData={launchesData} launchpads={launchpads} />
+          <SearchFeed launchesData={UserlaunchesData} launchpads={launchpads} />
         ) : (
           "No Data"
         )}
