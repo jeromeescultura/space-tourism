@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { server } from "../config";
+import dayjs from "dayjs";
 
 import Image from "next/image";
 import NavBar from "../components/NavBar";
@@ -9,22 +10,20 @@ import SearchWidget from "../components/SearchWidget";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import dateFormatter from "../components/DateFormatter";
 
+const isBetween = require("dayjs/plugin/isBetween");
+const isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+const isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isBetween);
+
 export default function Discover({ launches, launchpads }) {
   let [launchesData, setLaunchesData] = useState([]);
-  let [UserlaunchesData, setUserLaunchesData] = useState([]);
-  let [searchTerm, setSearchTerm] = useState("");
-  let [minYear, setMinYear] = useState("");
-  let [minYearTerm, setMinYearTerm] = useState("");
-  let [maxYear, setMaxYear] = useState("");
-  let [maxYearTerm, setMaxYearTerm] = useState("");
-  let [LaunchPad, setLaunchPad] = useState("");
-  let [LaunchPadTerm, setLaunchPadTerm] = useState("");
-  let [resultCount, setResultCount] = useState("");
+  let [userLaunchesData, setUserLaunchesData] = useState([]);
 
   useEffect(() => {
     setLaunchesData(launches);
     setUserLaunchesData(launches);
-    setResultCount(launches.length);
   }, [launches]);
 
   const scrollToResults = () => {
@@ -49,61 +48,80 @@ export default function Discover({ launches, launchpads }) {
     return list;
   };
 
-  const handleKeyword = (query) => {
-    const newData = UserlaunchesData.filter((y) =>
-      y.flight_number
-        .toString()
-        .toLowerCase()
-        .includes(query == "" ? y.flight_number : query.toLowerCase())
-    );
-    setLaunchesData(newData);
+  const handleDate = (date, field) => {
+    if (date !== "") {
+      const filteredData = launchesData.filter((item) => {
+        dayjs(item.launch_date_local).isBetween(
+          field === "from" && date,
+          dayjs(field === "to" && date)
+        );
+      });
+      setUserLaunchesData(filteredData);
+    } else {
+      setUserLaunchesData(launchesData);
+    }
   };
 
-  const handleLaunchPad = (value) => {
-    if (value !== "Any") {
-      setLaunchPad(value);
-      launchpads.map((x) => {
-        if (x.id.toLowerCase() === value.toLowerCase()) {
-          setLaunchPadTerm(x.full_name);
+  const handleSearch = (filters) => {
+    if (filters.keyword !== "") {
+      const filteredData = launchesData.filter(
+        (item) =>
+          item.flight_number
+            .toString()
+            .toLowerCase()
+            .includes(filters.keyword.toLowerCase()) ||
+          item.rocket.rocket_name
+            .toLowerCase()
+            .includes(filters.keyword.toLowerCase()) ||
+          item.payloads[0].payload_id
+            .toLowerCase()
+            .includes(filters.keyword.toLowerCase())
+      );
+      setUserLaunchesData(filteredData);
+    } else if (filters.pad !== "" && filters.keyword === "") {
+      const filteredWithPad = launchesData.filter((item) => {
+        if (item.launch_site.site_id === filters.pad) {
+          return item;
         }
       });
+      setUserLaunchesData(filteredWithPad);
+    } else if (filters.pad !== "" && filters.keyword !== "") {
+      const filteredWithPad = userLaunchesData.filter((item) => {
+        if (item.launch_site.site_id === filters.pad) {
+          return item;
+        }
+      });
+      setUserLaunchesData(filteredWithPad);
+    } else if (filters.from !== "" && filters.to !== "") {
+      const filteredWithDate = launchesData.filter((item) => {
+        if (
+          dayjs(dateFormatter(item.launch_date_local)).isBetween(
+            parseInt(filters.from - 1).toString(),
+            dayjs((parseInt(filters.to) + 1).toString()),
+            "year"
+          )
+        ) {
+          return item;
+        }
+      });
+      setUserLaunchesData(filteredWithDate);
+    } else if (filters.from !== "") {
+      const filteredFrom = launchesData.filter((item) => {
+        if (dayjs(item.launch_date_local).isSameOrAfter(filters.from, "year")) {
+          return item;
+        }
+      });
+      setUserLaunchesData(filteredFrom);
+    } else if (filters.to !== "") {
+      const filteredTo = launchesData.filter((item) => {
+        if (dayjs(item.launch_date_local).isSameOrBefore(filters.to, "year")) {
+          return item;
+        }
+      });
+      setUserLaunchesData(filteredTo);
     } else {
-      setLaunchPad("");
-      setLaunchPadTerm("Any");
+      setUserLaunchesData(launchesData);
     }
-  };
-
-  const handleMinYear = (value) => {
-    if (value !== "Any") {
-      setMinYear(value);
-      setMinYearTerm(value);
-    } else {
-      setMinYear("");
-      setMinYearTerm("Any");
-    }
-  };
-  const handleMaxYear = (value) => {
-    if (value !== "Any") {
-      setMaxYear(value);
-      setMaxYearTerm(value);
-    } else {
-      setMaxYear("");
-      setMaxYearTerm("Any");
-    }
-  };
-
-  const handleSearch = () => {
-    // const newData = UserlaunchesData.filter(
-    //   (y) =>
-    //     y.flight_number.toString().toLowerCase() ==
-    //     (searchTerm == "" ? y.flight_number : searchTerm.toLowerCase())
-    // ).filter(
-    //   (x) =>
-    //     x.launch_site.site_id.toLowerCase() ==
-    //     (LaunchPad == "" ? x.launch_site.site_id : LaunchPad.toLowerCase())
-    // );
-    // setLaunchesData(newData);
-    // setResultCount(newData.length);
   };
 
   return (
@@ -132,26 +150,28 @@ export default function Discover({ launches, launchpads }) {
       </div>
       <div className="w-full mx-auto md:w-[90%] lg:w-[80%]">
         <SearchWidget
-          launchpads={launchpads}
-          launches={launches}
-          query={handleKeyword}
-          LaunchPad={handleLaunchPad}
-          LaunchPadTerm={LaunchPadTerm}
-          minYear={handleMinYear}
-          minYearTerm={minYearTerm}
-          maxYear={handleMaxYear}
-          maxYearTerm={maxYearTerm}
+          // launchpads={launchpads}
+          // launches={launches}
+          // query={handleKeyword}
+          // LaunchPad={handleLaunchPad}
+          // LaunchPadTerm={LaunchPadTerm}
+          // minYear={handleMinYear}
+          // minYearTerm={minYearTerm}
+          // maxYear={handleMaxYear}
+          // maxYearTerm={maxYearTerm}
           handleSearch={handleSearch}
           dateList={generateYearListDropdown()}
           launchpadsList={generateLaunchPadListDropdown()}
+          // handlePad={handlePad}
         />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
           <p className="text-slate-400">
-            Showing {resultCount} {resultCount <= 1 ? "Mission" : "Missions"}
+            Showing {userLaunchesData.length}{" "}
+            {userLaunchesData.length <= 1 ? "Mission" : "Missions"}
           </p>
         </div>
-        {UserlaunchesData && UserlaunchesData.length > 0 ? (
-          <SearchFeed launchesData={launchesData} launchpads={launchpads} />
+        {userLaunchesData && userLaunchesData.length > 0 ? (
+          <SearchFeed launchesData={userLaunchesData} launchpads={launchpads} />
         ) : (
           "No Data"
         )}
