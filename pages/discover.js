@@ -48,20 +48,6 @@ export default function Discover({ launches, launchpads }) {
     return list;
   };
 
-  const handleDate = (date, field) => {
-    if (date !== "") {
-      const filteredData = launchesData.filter((item) => {
-        dayjs(item.launch_date_local).isBetween(
-          field === "from" && date,
-          dayjs(field === "to" && date)
-        );
-      });
-      setUserLaunchesData(filteredData);
-    } else {
-      setUserLaunchesData(launchesData);
-    }
-  };
-
   const handleSearch = (filters) => {
     if (filters.keyword !== "") {
       const filteredData = launchesData.filter(
@@ -150,19 +136,9 @@ export default function Discover({ launches, launchpads }) {
       </div>
       <div className="w-full mx-auto md:w-[90%] lg:w-[80%]">
         <SearchWidget
-          // launchpads={launchpads}
-          // launches={launches}
-          // query={handleKeyword}
-          // LaunchPad={handleLaunchPad}
-          // LaunchPadTerm={LaunchPadTerm}
-          // minYear={handleMinYear}
-          // minYearTerm={minYearTerm}
-          // maxYear={handleMaxYear}
-          // maxYearTerm={maxYearTerm}
           handleSearch={handleSearch}
           dateList={generateYearListDropdown()}
           launchpadsList={generateLaunchPadListDropdown()}
-          // handlePad={handlePad}
         />
         <div className="bg-slate-900 text-xs text-center pt-6 pb-3">
           <p className="text-slate-400">
@@ -197,12 +173,6 @@ export async function getServerSideProps(context) {
   const launchpads = await fetch(`${server}/api/launchpads`).then((rest) =>
     rest.json()
   );
-  // const launches = await fetch("http://localhost:3000/api/launches").then(
-  //   (rest) => rest.json()
-  // );
-  // const launchpads = await fetch("http://localhost:3000/api/launchpads").then(
-  //   (rest) => rest.json()
-  // );
 
   return {
     props: {
