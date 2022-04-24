@@ -93,6 +93,7 @@ function SearchWidget({ dateList, launchpadsList, handleSearch }) {
           {launchpadsList.map((pads) =>
             pads.map((pad) => (
               <option
+                key={pad.id}
                 value={pad.id}
                 className="px-4 py-2 text-sm  text-slate-700"
               >
@@ -123,6 +124,7 @@ function SearchWidget({ dateList, launchpadsList, handleSearch }) {
           </option>
           {dateList.map((year) => (
             <option
+              key={year}
               className="px-4 py-2 text-sm text-slate-700"
               value={parseInt(year)}
             >
@@ -152,6 +154,7 @@ function SearchWidget({ dateList, launchpadsList, handleSearch }) {
           </option>
           {dateList.map((year) => (
             <option
+              key={year}
               className="px-4 py-2 text-sm text-slate-700"
               value={parseInt(year)}
             >
