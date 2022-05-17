@@ -45,7 +45,7 @@ export default function Home() {
         </div>
         <div
           id="target"
-          className="absolute bg-white opacity-20 rounded-full w-[230px] h-[230px]"
+          className="absolute bg-white opacity-20 rounded-full w-[350px] h-[350px]"
         ></div>
 
         {/* <Link passHref href="/destination">

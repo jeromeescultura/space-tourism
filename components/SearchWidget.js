@@ -84,7 +84,7 @@ function SearchWidget({ dateList, launchpadsList, handleSearch }) {
         <select
           id="pad"
           onChange={handleInput("pad")}
-          className="w-full barlow-condensed appearance-none border rounded-sm py-3 md:py-2 text-white leading-tight bg-transparent border-gray-300 hover:border-white cursor-pointer text-xs md:text-sm"
+          className="w-full barlow-condensed pl-2 appearance-none border rounded-sm py-3 md:py-2 text-white leading-tight bg-transparent border-gray-300 hover:border-white cursor-pointer text-xs md:text-sm"
           onKeyPress={handleKeyPress}
         >
           <option value="" className="px-4 py-2 text-sm text-slate-700">
